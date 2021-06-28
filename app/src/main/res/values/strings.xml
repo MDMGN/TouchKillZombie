@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Touch Kill - Zombie</string>
+    <string name="btn_login">Inicia sesión</string>
+    <string name="btn_singin">Regístrate</string>
+    <string name="img_desccription">Imágen con el título descriptivo del juego.</string>
+</resources>
