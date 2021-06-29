@@ -1,7 +1,9 @@
 package com.mgn.touchkillz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,10 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
@@ -63,15 +73,51 @@ public class RegisterActivity extends AppCompatActivity {
                     eTpassword.setError("6 carácteres como mínimo.");
                     eTpassword.setFocusable(true);
                 }else{
-                    PlayerRegister();
+                    PlayerRegister(name,email,password);
                 }
             }
         });
         changeImagen();
     }
 
-    private void PlayerRegister() {
-        Toast.makeText(RegisterActivity.this,"¡Registro realizado con éxito!.",Toast.LENGTH_SHORT).show();
+    private void PlayerRegister(String name,String email,String password) {
+        auth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser user=auth.getCurrentUser();
+                            int point=0;
+                            assert user != null; //Si el usuario no es nulo.
+                            String uid=user.getUid();
+                            String date=eTdate.getText().toString();
+                            //Crear onjeto de clave y valor para los datos del usuario.
+                            HashMap<Object,Object> playerData=new HashMap<>();
+                            playerData.put("uid",uid);
+                            playerData.put("name",name);
+                            playerData.put("email",email);
+                            playerData.put("password",password);
+                            playerData.put("date",date);
+                            //Enviar el objeto de datos a Firebase.
+                            FirebaseDatabase database=FirebaseDatabase.getInstance();
+                            DatabaseReference reference=database.getReference("Data players");
+                            reference.child(uid).setValue(playerData);
+                            startActivity(new Intent(RegisterActivity.this,MenuActivity.class));
+                            Toast.makeText(RegisterActivity.this,"¡Registro realizado con éxito!.",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else{
+                            Toast.makeText(RegisterActivity.this,"¡No se pudo completar el registro.!",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                //Error al registrar player.
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     private void radomImagen() {
         String bgImages[] = {"bgz0", "bgz1"};
