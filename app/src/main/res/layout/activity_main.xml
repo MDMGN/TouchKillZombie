@@ -19,6 +19,8 @@
         android:layout_marginRight="16dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/btn_login"
+        android:textColor="@color/red"
+        app:backgroundTint="@color/zombie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_touch" />
@@ -34,6 +36,8 @@
         android:layout_marginRight="16dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/btn_singin"
+        android:textColor="@color/red"
+        app:backgroundTint="@color/zombie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
