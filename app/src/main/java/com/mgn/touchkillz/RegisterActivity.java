@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.PatternMatcher;
-import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.security.*;
 import android.util.Patterns;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -80,33 +80,34 @@ public class RegisterActivity extends AppCompatActivity {
         changeImagen();
     }
 
-    private void PlayerRegister(String name,String email,String password) {
-        auth.createUserWithEmailAndPassword(email,password)
+    private void PlayerRegister(String name,String email,String password)  {
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser user=auth.getCurrentUser();
-                            int point=0;
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = auth.getCurrentUser();
+                            int point = 0;
                             assert user != null; //Si el usuario no es nulo.
-                            String uid=user.getUid();
-                            String date=eTdate.getText().toString();
+                            String uid = user.getUid();
+                            String date = eTdate.getText().toString();
                             //Crear onjeto de clave y valor para los datos del usuario.
-                            HashMap<Object,Object> playerData=new HashMap<>();
-                            playerData.put("uid",uid);
-                            playerData.put("name",name);
-                            playerData.put("email",email);
-                            playerData.put("password",password);
-                            playerData.put("date",date);
+                            HashMap<Object, Object> playerData = new HashMap<>();
+                            playerData.put("uid", uid);
+                            playerData.put("name", name);
+                            playerData.put("email", email);
+                            playerData.put("password", MD5(password));
+                            playerData.put("date", date);
+                            playerData.put("zombies", point);
                             //Enviar el objeto de datos a Firebase.
-                            FirebaseDatabase database=FirebaseDatabase.getInstance();
-                            DatabaseReference reference=database.getReference("Data players");
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("Data players");
                             reference.child(uid).setValue(playerData);
-                            startActivity(new Intent(RegisterActivity.this,MenuActivity.class));
-                            Toast.makeText(RegisterActivity.this,"¡Registro realizado con éxito!.",Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterActivity.this, MenuActivity.class));
+                            Toast.makeText(RegisterActivity.this, "¡Registro realizado con éxito!.", Toast.LENGTH_SHORT).show();
                             finish();
-                        }else{
-                            Toast.makeText(RegisterActivity.this,"¡No se pudo completar el registro.!",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "¡No se pudo completar el registro.!", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -115,18 +116,22 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-    private void radomImagen() {
-        String bgImages[] = {"bgz0", "bgz1"};
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                }, 1000);
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
     private void changeImagen(){
         String bgImages[] = {"bgz0", "bgz1","bgz2","bgz3"};
