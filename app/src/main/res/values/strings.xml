@@ -11,7 +11,13 @@
     <string name="btn_logarte">Ingresar</string>
     <string name="btn_singout">Cerrar sesión</string>
     <!--MENU-->
-    <string name="point_record">Puntuación</string>
+    <string name="point_record">Mi puntuación</string>
     <string name="zombies">---</string>
     <string name="main">Menú</string>
+    <string name="uid">--</string>
+    <string name="emailUser">--</string>
+    <string name="nameUser">--</string>
+    <string name="btnPlay">Jugar</string>
+    <string name="btn_info">Acerca de</string>
+    <string name="btn_recordall">Puntuaciones</string>
 </resources>
