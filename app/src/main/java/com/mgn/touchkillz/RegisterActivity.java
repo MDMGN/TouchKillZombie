@@ -27,13 +27,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
 public class RegisterActivity extends AppCompatActivity {
     EditText eTname,eTemail,eTpassword;
     TextView eTdate;
     Button btnRegister;
     ImageView bgz;
     FirebaseAuth auth; //Firebase Autenticación.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +127,23 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return null;
     }
+    /*public static String sha256(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }*/
     private void changeImagen(){
         String bgImages[] = {"bgz0", "bgz1","bgz2","bgz3"};
         Handler handler=new Handler();

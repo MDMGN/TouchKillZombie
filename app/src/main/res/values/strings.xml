@@ -8,4 +8,10 @@
     <string name="email">Correo electrónico</string>
     <string name="date">Fecha</string>
     <string name="btn_register">Registrar</string>
+    <string name="btn_logarte">Ingresar</string>
+    <string name="btn_singout">Cerrar sesión</string>
+    <!--MENU-->
+    <string name="point_record">Puntuación</string>
+    <string name="zombies">---</string>
+    <string name="main">Menú</string>
 </resources>

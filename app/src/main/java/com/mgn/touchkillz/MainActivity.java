@@ -9,23 +9,24 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button btnLogin,btnSingin;
     ImageView handzombie;
+    int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnLogin=findViewById(R.id.btnLogin);
+        btnLogin=findViewById(R.id.btninLogin);
         btnSingin=findViewById(R.id.btnSingin);
         handzombie=findViewById(R.id.handzImagen);
+        count=0;
         animationHandZombie(handzombie);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"Inicia sesión",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
             }
         });
         btnSingin.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
                 startActivity(intent);
+            }
+        });
+        handzombie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count++;
+                if(count==7){
+                    startActivity(new Intent(MainActivity.this,MenuActivity.class));
+                    count=0;
+                }
             }
         });
     }

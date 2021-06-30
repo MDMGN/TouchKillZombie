@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivity"
+    android:background="@color/black">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        android:contentDescription="@string/img_desccription"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/titleRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_singin"
+            android:layout_margin="10dp"
+            android:text="@string/btn_login"
             android:textColor="@color/zombie"
             android:textSize="30sp"></TextView>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/zombie">
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="@string/name"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textColor="@color/red"
-                android:textSize="20sp" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -54,7 +43,7 @@
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/red"
-                android:textSize="20sp" />
+                android:textSize="20sp"></EditText>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -72,37 +61,16 @@
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:textColor="@color/red"
-                android:textSize="20sp" />
+                android:textSize="20sp"></EditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:hint="@string/date"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:textColor="@color/red"
-            android:textColorHint="@color/red"
-            android:textSize="20sp"></TextView>
-
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/btn_register"
-            android:textColor="@color/red"
-            app:backgroundTint="@color/zombie"></Button>
-
-        <ImageView
-            android:id="@+id/bgz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/bgz0"
-            android:layout_gravity="bottom"/>
+            android:backgroundTint="@color/zombie"
+            android:text="@string/btn_logarte"
+            android:textColor="@color/red"></Button>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>
