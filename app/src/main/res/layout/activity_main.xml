@@ -23,7 +23,7 @@
         app:backgroundTint="@color/zombie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_touch" />
+        app:layout_constraintTop_toBottomOf="@+id/titlegImagen" />
 
     <Button
         android:id="@+id/btnSingin"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <ImageView
-        android:id="@+id/img_touch"
+        android:id="@+id/titlegImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -51,5 +51,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/title_logo" />
+        app:srcCompat="@drawable/title_game" />
+
+    <ImageView
+        android:id="@+id/handzImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/img_desccription"
+        app:layout_constraintEnd_toEndOf="@+id/titlegImagen"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintStart_toStartOf="@+id/titlegImagen"
+        app:layout_constraintTop_toTopOf="@+id/titlegImagen"
+        app:srcCompat="@drawable/hand_zombie" />
 </androidx.constraintlayout.widget.ConstraintLayout>
