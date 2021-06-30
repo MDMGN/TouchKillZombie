@@ -6,9 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import java.io.UnsupportedEncodingException;
-import java.security.*;
 import android.util.Patterns;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -30,9 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText eTname,eTemail,eTpassword;
