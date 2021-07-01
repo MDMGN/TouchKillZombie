@@ -37,6 +37,18 @@ public class MenuActivity extends AppCompatActivity {
                Toast.makeText(MenuActivity.this, "Jugar", Toast.LENGTH_SHORT).show();
            }
        });
+        btnRecordall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MenuActivity.this, "Puntuaciones", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MenuActivity.this, "AcerA DE", Toast.LENGTH_SHORT).show();
+            }
+        });
         btnSingOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

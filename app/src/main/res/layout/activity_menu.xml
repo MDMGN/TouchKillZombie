@@ -30,7 +30,7 @@
             android:id="@+id/imageView2"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:srcCompat="@drawable/handz"
+            app:srcCompat="@drawable/soldado"
             android:contentDescription="@string/img_desccription"/>
         <TextView
             android:layout_width="wrap_content"
@@ -63,6 +63,8 @@
             android:text="@string/btnPlay"
             android:id="@+id/btnPlay"
             android:backgroundTint="@color/zombie"
+            app:cornerRadius="30dp"
+            android:padding="16dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
@@ -72,6 +74,8 @@
             android:text="@string/btn_recordall"
             android:id="@+id/btnRecordall"
             android:backgroundTint="@color/zombie"
+            app:cornerRadius="30dp"
+            android:padding="16dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
@@ -81,6 +85,8 @@
             android:text="@string/btn_info"
             android:id="@+id/btnInfo"
             android:backgroundTint="@color/zombie"
+            app:cornerRadius="30dp"
+            android:padding="16dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
@@ -90,6 +96,8 @@
             android:text="@string/btn_singout"
             android:id="@+id/btnSingOut"
             android:backgroundTint="@color/zombie"
+            app:cornerRadius="30dp"
+            android:padding="16dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
     </androidx.appcompat.widget.LinearLayoutCompat>
