@@ -2,6 +2,7 @@ package com.mgn.touchkillz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +14,13 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity {
     Button btnLogin,btnSingin;
     ImageView handzombie;
+    public static Activity fa;
     int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fa = this;
         btnLogin=findViewById(R.id.btninLogin);
         btnSingin=findViewById(R.id.btnSingin);
         handzombie=findViewById(R.id.handzImagen);

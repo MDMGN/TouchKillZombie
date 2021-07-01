@@ -11,93 +11,81 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nameUser"
+            android:id="@+id/nameUser"
+            android:textSize="50sp"
+            android:textColor="@color/red"
+            android:gravity="center"></TextView>
+        <ImageView
+            android:id="@+id/imgpf"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:srcCompat="@drawable/imgpf"
+            android:contentDescription="@string/img_desccription"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/point_record"
             android:textColor="@color/red"
-            android:textSize="30sp"></TextView>
+            android:textSize="30sp"
+            android:id="@+id/recordText"></TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zombies"
             android:id="@+id/recorUser"
             android:textColor="@color/red"
-            android:textSize="20sp"></TextView>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:srcCompat="@drawable/soldado"
-            android:contentDescription="@string/img_desccription"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/uidUser"
-            android:text="@string/uid"
-            android:textSize="20sp"
-            android:textColor="@color/red"
-            android:gravity="center"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nameUser"
-            android:id="@+id/nameUser"
-            android:textSize="20sp"
-            android:textColor="@color/red"
-            android:gravity="center"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/emailUser"
-            android:id="@+id/emailUser"
-            android:textSize="20sp"
-            android:textColor="@color/red"
-            android:gravity="center"></TextView>
+            android:textSize="25sp"></TextView>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="@string/btnPlay"
+            android:textSize="20sp"
             android:id="@+id/btnPlay"
             android:backgroundTint="@color/zombie"
             app:cornerRadius="30dp"
-            android:padding="16dp"
+            android:padding="12dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/btn_recordall"
+            android:textSize="20sp"
             android:id="@+id/btnRecordall"
             android:backgroundTint="@color/zombie"
             app:cornerRadius="30dp"
-            android:padding="16dp"
+            android:padding="12dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/btn_info"
+            android:textSize="20sp"
             android:id="@+id/btnInfo"
             android:backgroundTint="@color/zombie"
             app:cornerRadius="30dp"
-            android:padding="16dp"
+            android:padding="12dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/btn_singout"
+            android:textSize="20sp"
             android:id="@+id/btnSingOut"
             android:backgroundTint="@color/zombie"
             app:cornerRadius="30dp"
-            android:padding="16dp"
+            android:padding="12dp"
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this,MenuActivity.class));
                             assert user!=null; //Si el usuario no es null.
                             Toast.makeText(LoginActivity.this, "BIENVENIDO(A) "+user.getEmail()+".", Toast.LENGTH_SHORT).show();
+                            MainActivity.fa.finish();
                             finish();
                         }
                     }

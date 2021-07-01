@@ -20,4 +20,9 @@
     <string name="btnPlay">Jugar</string>
     <string name="btn_info">Acerca de</string>
     <string name="btn_recordall">Puntuaciones</string>
+    <!--ALERT-->
+    <string name="tittle_alert">Cerrar sessión</string>
+    <string name="descript_alert">¿Deseas cerrar sessión?</string>
+    <string name="confirm_alert">Aceptar</string>
+    <string name="cancel_alert">Cancelar</string>
 </resources>
