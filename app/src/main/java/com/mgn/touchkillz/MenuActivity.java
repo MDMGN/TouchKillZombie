@@ -32,7 +32,7 @@ public class MenuActivity extends AppCompatActivity {
     DatabaseReference reference;
 
     Button btnSingOut,btnPlay,btnRecordall,btnInfo;
-    TextView nameUser,emailUser,recordUser,uidUser,recorText;
+    TextView nameUser,recordUser,recorText;
     ImageView imgpf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +64,11 @@ public class MenuActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
-               startActivity(intent);
                String name=nameUser.getText().toString();
                String recordpoint=recordUser.getText().toString();
                intent.putExtra("name",name);
                intent.putExtra("recordpoint",recordpoint);
+               startActivity(intent);
            }
        });
         btnRecordall.setOnClickListener(new View.OnClickListener() {

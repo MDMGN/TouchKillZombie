@@ -25,4 +25,8 @@
     <string name="descript_alert">¿Deseas cerrar sessión?</string>
     <string name="confirm_alert">Aceptar</string>
     <string name="cancel_alert">Cancelar</string>
+    <!--Game-->
+    <string name="points">0</string>
+    <string name="name_user">--</string>
+    <string name="time_game">0S</string>
 </resources>
