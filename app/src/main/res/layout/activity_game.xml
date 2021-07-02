@@ -78,9 +78,15 @@
         android:layout_marginTop="5dp">
         <ImageView
             android:id="@+id/pjzombie"
-            android:layout_width="120sp"
-            android:layout_height="120dp"
+            android:layout_width="180sp"
+            android:layout_height="180dp"
             android:src="@drawable/zombie"></ImageView>
+        <ImageView
+            android:id="@+id/pjhuman"
+            android:layout_width="180sp"
+            android:layout_height="180dp"
+            android:src="@drawable/zombie"
+            android:visibility="invisible"></ImageView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

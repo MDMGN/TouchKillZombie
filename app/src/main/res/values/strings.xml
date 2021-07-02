@@ -28,5 +28,12 @@
     <!--Game-->
     <string name="points">0</string>
     <string name="name_user">--</string>
-    <string name="time_game">0S</string>
+    <string name="time_game">0 S</string>
+    <!--GameOver-->
+    <string name="end_time">!Se acabó el tiempo¡</string>
+    <string name="kill_zombies">--</string>
+    <string name="text_kilzombies">Has Matado</string>
+    <string name="go_menu">IR AL MENÚ</string>
+    <string name="game_again">VOLVER aJUGAR</string>
+    <string name="show_score">VER PUNTUACIONES</string>
 </resources>

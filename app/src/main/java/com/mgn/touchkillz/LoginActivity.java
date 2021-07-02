@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -41,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
                 }else if(password.length()<6){
                     eTpassword.setError("6 carácteres como mínimo.");
                     eTpassword.setFocusable(true);
+                }else if(!isOnline()){
+                    Toast.makeText(LoginActivity.this, "¡Compruebe su conexión a internet!", Toast.LENGTH_SHORT).show();
                 }else{
                     PlayerLogin(email,password);
                 }
@@ -68,5 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

@@ -44,6 +44,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="@string/btnPlay"
             android:textSize="20sp"
             android:id="@+id/btnPlay"

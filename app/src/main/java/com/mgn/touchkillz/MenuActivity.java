@@ -69,6 +69,7 @@ public class MenuActivity extends AppCompatActivity {
                intent.putExtra("name",name);
                intent.putExtra("recordpoint",recordpoint);
                startActivity(intent);
+               finish();
            }
        });
         btnRecordall.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +107,6 @@ public class MenuActivity extends AppCompatActivity {
         Toast.makeText(MenuActivity.this, "Cerrastes sessión.", Toast.LENGTH_SHORT).show();
         finish();
     }
-    public void setDataUser(){
-    }
     public void onClickShowAlert(View view){
         AlertDialog.Builder myAlertBuilder = new
                 AlertDialog.Builder(MenuActivity.this);
@@ -128,6 +127,7 @@ public class MenuActivity extends AppCompatActivity {
                 });
         myAlertBuilder.show();
     }
+
     private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
         Handler handler=new Handler();
@@ -158,6 +158,7 @@ public class MenuActivity extends AppCompatActivity {
                     String name=ds.child("name").getValue().toString();
                     nameUser.setText(name);
                     recordUser.setText(zombies);
+                    btnPlay.setEnabled(true);
                 }
             }
 
