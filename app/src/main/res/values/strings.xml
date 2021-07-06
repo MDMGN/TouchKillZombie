@@ -30,6 +30,7 @@
     <string name="name_user">--</string>
     <string name="time_game">0 S</string>
     <!--GameOver-->
+    <string name="lose_game">!Perdistes¡</string>
     <string name="end_time">!Se acabó el tiempo¡</string>
     <string name="kill_zombies">--</string>
     <string name="text_kilzombies">Has Matado</string>

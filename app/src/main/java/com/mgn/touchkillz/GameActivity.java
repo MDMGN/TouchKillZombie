@@ -3,11 +3,12 @@ package com.mgn.touchkillz;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,13 +16,15 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile =
+            "com.mgn.touchkillz";
     String name,points;
     TextView pointsUser,nameUser,tVtime,tVheight,tVwidth;
     ImageView pj;
@@ -34,23 +37,29 @@ public class GameActivity extends AppCompatActivity {
     boolean pclick=false,click=true;
     Random random;
     boolean gameOver=false;
-    Dialog dialog;
+    Intent intent;
+    public static Activity ga;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);
         lnLayout=findViewById(R.id.lnLayout);
         pj=findViewById(R.id.pj);
-        dialog=new Dialog(GameActivity.this);
         pointsUser=findViewById(R.id.tVpoint);
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
-        name=intent.getString("name");
-        points=intent.getString("recordpoint");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        name=mPreferences.getString("name",null);
+        points="0";
+        if(name ==null ) {
+            name=intent.getString("name");
+            //points=intent.getString("recordpoint");
+        }
         pointsUser.setText(points);
        nameUser.setText(name);
         lnLayout.post(new Runnable(){
@@ -78,6 +87,8 @@ public class GameActivity extends AppCompatActivity {
            }
        });
     }
+    private void valueName(){
+    }
     private void screen(){
         Display display=getWindowManager().getDefaultDisplay();
         Point point=new Point();
@@ -100,66 +111,23 @@ public class GameActivity extends AppCompatActivity {
         pj.setY(randomY);
     }
     private void countBack(){
-        new CountDownTimer(10000,1000){
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long secondsBack=millisUntilFinished/1000;
-                tVtime.setText(secondsBack+" S");
-            }
+            new CountDownTimer(10000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if(!gameOver) {
+                        long secondsBack = millisUntilFinished / 1000;
+                        tVtime.setText(secondsBack + " S");
+                    }
+                }
 
-            @Override
-            public void onFinish() {
-                tVtime.setText(R.string.time_game);
-                gameOver=true;
-                mensaggeGameOver();
-            }
-        }.start();
-    }
-
-    private void mensaggeGameOver() {
-        String path="fonts/edosz.ttf";
-        Typeface tf=Typeface.createFromAsset(GameActivity.this.getAssets(),path);
-        TextView endGameTv,tVkillZombiesText,tVkillZombiesScore,tVPlayerUserName;
-        Button btnPlayAgain,btnShowScore,btnGoMenu;
-
-        dialog.setContentView(R.layout.game_over);
-
-        endGameTv=dialog.findViewById(R.id.endGameText);
-        tVkillZombiesText=dialog.findViewById(R.id.killZombiesText);
-        tVkillZombiesScore=dialog.findViewById(R.id.killZombies);
-        tVPlayerUserName=dialog.findViewById(R.id.tVplayerUsername);
-        btnPlayAgain=dialog.findViewById(R.id.playAgain);
-        btnShowScore=dialog.findViewById(R.id.showScore);
-        btnGoMenu=dialog.findViewById(R.id.goMenu);
-        tVPlayerUserName.setText(name);
-        tVPlayerUserName.setTypeface(tf);
-        String zombies=String.valueOf(count);
-        tVkillZombiesScore.setText(zombies+" zombies.");
-        tVkillZombiesScore.setTypeface(tf);
-        endGameTv.setTypeface(tf);
-        tVkillZombiesText.setTypeface(tf);
-        btnPlayAgain.setTypeface(tf);
-        btnShowScore.setTypeface(tf);
-        btnGoMenu.setTypeface(tf);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        dialog.setCancelable(false);
-        btnPlayAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-                Intent intent=getIntent();
-                finish();
-                startActivity(intent);
-            }
-        });
-        btnGoMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(GameActivity.this,MenuActivity.class));
-                finish();
-            }
-        });
+                @Override
+                public void onFinish() {
+                    if(!gameOver) {
+                        tVtime.setText(R.string.time_game);
+                        GameOver(null);
+                    }
+                }
+            }.start();
     }
     public String randomPJ(){
         String pjImages[] = {"pjzombie","pjzombie","pjzombiecoco","pjhuman", "pjzombie"};
@@ -177,9 +145,8 @@ public class GameActivity extends AppCompatActivity {
         switch(pjImage){
             case "pjhuman":
                 count=0;
-                gameOver=true;
                 tVtime.setText(R.string.time_game);
-                mensaggeGameOver();
+                GameOver("yes");
                 break;
             default:
                 count++;
@@ -187,6 +154,14 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
         pointsUser.setText(String.valueOf(count));
+    }
+    private void GameOver(String lose){
+        intent=new Intent(GameActivity.this, GameOverActivity.class);
+        gameOver=true;
+        intent.putExtra("name",name);
+        intent.putExtra("killzombie",count);
+        intent.putExtra("lose",lose);
+        startActivity(intent);
     }
     private void fastMoveZombie() {
         if(!gameOver) {
@@ -213,5 +188,14 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putInt("count", count);
+        preferencesEditor.putString("name", name);
+        preferencesEditor.apply();
     }
 }
