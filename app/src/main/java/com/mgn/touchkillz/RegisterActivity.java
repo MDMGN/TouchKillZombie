@@ -167,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
         };
         handler.postDelayed(run,1000);
     }
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(RegisterActivity.this.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

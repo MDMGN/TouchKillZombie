@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -36,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
     int timeMili=1000;
     boolean pclick=false,click=true;
     Random random;
-    boolean gameOver=false;
+    boolean gameOver;
     Intent intent;
     public static Activity ga;
     @Override
@@ -53,11 +55,12 @@ public class GameActivity extends AppCompatActivity {
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
-        name=intent.getString("name");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        name=mPreferences.getString("name",null);
         points="0";
-        if(name ==null ) {
-            mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-            name=mPreferences.getString("name",null);
+        if(isOnline() ) {
+            name=intent.getString("name");
+            points=intent.getString("recordpoint");
         }
         pointsUser.setText(points);
        nameUser.setText(name);
@@ -84,12 +87,6 @@ public class GameActivity extends AppCompatActivity {
                }
            }
        });
-    }
-    public void RestartGame(){
-        count=0;
-        gameOver=false;
-        countBack();
-        fastMoveZombie();
     }
     private void screen(){
         Display display=getWindowManager().getDefaultDisplay();
@@ -163,7 +160,7 @@ public class GameActivity extends AppCompatActivity {
         intent.putExtra("name",name);
         intent.putExtra("killzombie",count);
         intent.putExtra("lose",lose);
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
     private void fastMoveZombie() {
         if(!gameOver) {
@@ -186,6 +183,12 @@ public class GameActivity extends AppCompatActivity {
             handler.postDelayed(run, timeMili);
             click=false;
         }
+    }
+    private boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(GameActivity.this.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
     @Override
     public void onBackPressed() {
