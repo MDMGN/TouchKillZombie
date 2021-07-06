@@ -53,12 +53,11 @@ public class GameActivity extends AppCompatActivity {
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        name=mPreferences.getString("name",null);
+        name=intent.getString("name");
         points="0";
         if(name ==null ) {
-            name=intent.getString("name");
-            //points=intent.getString("recordpoint");
+            mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+            name=mPreferences.getString("name",null);
         }
         pointsUser.setText(points);
        nameUser.setText(name);
@@ -67,10 +66,9 @@ public class GameActivity extends AppCompatActivity {
                 lnLayoutHeight = lnLayout.getHeight();
             }
         });
-       screen();
-       countBack();
-       fastMoveZombie();
-
+        screen();
+        countBack();
+        fastMoveZombie();
       pj.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -87,7 +85,11 @@ public class GameActivity extends AppCompatActivity {
            }
        });
     }
-    private void valueName(){
+    public void RestartGame(){
+        count=0;
+        gameOver=false;
+        countBack();
+        fastMoveZombie();
     }
     private void screen(){
         Display display=getWindowManager().getDefaultDisplay();

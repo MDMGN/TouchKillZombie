@@ -15,6 +15,7 @@ public class GameOverActivity extends AppCompatActivity {
     TextView endGameTv,tVkillZombiesText,tVkillZombiesScore,tVPlayerUserName;
     Button btnPlayAgain,btnShowScore,btnGoMenu;
     Bundle bundle;
+    GameActivity gameActivity=new GameActivity();
     int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,7 @@ public class GameOverActivity extends AppCompatActivity {
         btnPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameActivity.ga.finish();
-                Intent intent=new Intent(GameOverActivity.this,GameActivity.class);
-                startActivity(intent);
+                gameActivity.RestartGame();
                 finish();
             }
         });
@@ -61,6 +60,7 @@ public class GameOverActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GameActivity.ga.finish();
+                startActivity(new Intent(GameOverActivity.this,MenuActivity.class));
                 finish();
             }
         });

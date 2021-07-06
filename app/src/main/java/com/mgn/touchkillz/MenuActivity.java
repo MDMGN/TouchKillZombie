@@ -69,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
                intent.putExtra("name",name);
                intent.putExtra("recordpoint",recordpoint);
                startActivity(intent);
-               finish();
+               //finish();
            }
        });
         btnRecordall.setOnClickListener(new View.OnClickListener() {
