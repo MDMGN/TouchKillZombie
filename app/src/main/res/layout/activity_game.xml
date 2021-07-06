@@ -12,6 +12,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/lnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,6 +35,7 @@
                 android:textSize="15sp"></TextView>
         </androidx.appcompat.widget.LinearLayoutCompat>
         <ImageView
+            android:id="@+id/iVaplastados"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/aplastados"></ImageView>
@@ -77,15 +79,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp">
         <ImageView
-            android:id="@+id/pjzombie"
-            android:layout_width="180sp"
-            android:layout_height="180dp"
-            android:src="@drawable/zombie"></ImageView>
+            android:id="@+id/pj"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/pjzombie"></ImageView>
         <ImageView
             android:id="@+id/pjhuman"
-            android:layout_width="180sp"
+            android:layout_width="180dp"
             android:layout_height="180dp"
-            android:src="@drawable/zombie"
+            android:src="@drawable/pjhuman_kill"
             android:visibility="invisible"></ImageView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
