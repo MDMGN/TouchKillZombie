@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +34,12 @@ public class MenuActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
 
+    private SharedPreferences mPreferences;
+    public static String sharedPrefFile ="com.mgn.touchkillz";
+
+    String name;
+    public static String score;
+
     Button btnSingOut,btnPlay,btnRecordall,btnInfo;
     TextView nameUser,recordUser,recorText;
     ImageView imgpf;
@@ -38,12 +47,15 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         firebaseDatabase=firebaseDatabase.getInstance();
         reference=firebaseDatabase.getReference("Data players");
+
         nameUser=findViewById(R.id.nameUser);
         recordUser=findViewById(R.id.recorUser);
+
         //font zombie.TTF.
         recorText=findViewById(R.id.recordText);
         String path="fonts/edosz.ttf";
@@ -94,7 +106,16 @@ public class MenuActivity extends AppCompatActivity {
     }
     public void isUserLogin(){
         if(user != null){
-            consultUsers();
+            if(isOnline()) {
+                consultUsers();
+            }else{
+                    mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+                name=mPreferences.getString("name",null);
+                score=mPreferences.getString("zombies","0");
+                nameUser.setText(name);
+                recordUser.setText(score);
+                btnPlay.setEnabled(true);
+            }
             Toast.makeText(MenuActivity.this, "Jugador en línea", Toast.LENGTH_SHORT).show();
         }else{
             startActivity(new Intent(MenuActivity.this,MainActivity.class));
@@ -154,10 +175,10 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
-                    String zombies=ds.child("zombies").getValue().toString();
-                    String name=ds.child("name").getValue().toString();
+                    score=ds.child("zombies").getValue().toString();
+                    name=ds.child("name").getValue().toString();
                     nameUser.setText(name);
-                    recordUser.setText(zombies);
+                    recordUser.setText(score);
                     btnPlay.setEnabled(true);
                 }
             }
@@ -167,5 +188,19 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(MenuActivity.this.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+    @Override
+    protected void onPause(){
+            SharedPreferences.Editor preferencesEditor = getSharedPreferences(sharedPrefFile, MODE_PRIVATE).edit();
+            preferencesEditor.putString("zombies", score);
+            preferencesEditor.putString("name", name);
+            preferencesEditor.apply();
+        super.onPause();
     }
 }

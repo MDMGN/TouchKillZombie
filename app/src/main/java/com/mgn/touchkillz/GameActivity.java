@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -25,7 +30,6 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
-    private String sharedPrefFile ="com.mgn.touchkillz";
     public static final int TEXTO_RESPUESTA =1;
     String name,points;
     TextView pointsUser,nameUser,tVtime,tVheight,tVwidth;
@@ -35,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
     int widthScreen;
     int heightScreen;
     int count;
-    int timeMili=600;
+    int timeMili=700;
     boolean pclick=false,click;
     Random random;
     boolean gameOver;
@@ -47,8 +51,17 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
+        /*SpannableString actionbarTitle = new SpannableString("¡Cerebros!");
+        actionbarTitle.setSpan(new TypefaceSpan(this,"fonts/edosz.ttf"), 0, actionbarTitle.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // Update the action bar title with the TypefaceSpan instance
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(actionbarTitle);*/
+        //getSupportActionBar().setTitle(Html.fromHtml("<font color=\"red\">" +getString("¡Cerebros!") + "</font>"));
+
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);
@@ -58,7 +71,7 @@ public class GameActivity extends AppCompatActivity {
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = getSharedPreferences(MenuActivity.sharedPrefFile, MODE_PRIVATE);
         name=mPreferences.getString("name",null);
         points="0";
         if(isOnline() ) {
@@ -121,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
         pj.setY(randomY);
     }
     private void countBack() {
-            countDownTimer=new CountDownTimer(10000, 1000) {
+            countDownTimer=new CountDownTimer(15000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     if(!gameOver) {
