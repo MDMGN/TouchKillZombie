@@ -1,10 +1,10 @@
 package com.mgn.touchkillz;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -25,8 +25,8 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
-    private String sharedPrefFile =
-            "com.mgn.touchkillz";
+    private String sharedPrefFile ="com.mgn.touchkillz";
+    public static final int TEXTO_RESPUESTA =1;
     String name,points;
     TextView pointsUser,nameUser,tVtime,tVheight,tVwidth;
     ImageView pj;
@@ -35,17 +35,20 @@ public class GameActivity extends AppCompatActivity {
     int widthScreen;
     int heightScreen;
     int count;
-    int timeMili=1000;
-    boolean pclick=false,click=true;
+    int timeMili=600;
+    boolean pclick=false,click;
     Random random;
     boolean gameOver;
     Intent intent;
     public static Activity ga;
+    CountDownTimer countDownTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);
@@ -69,9 +72,7 @@ public class GameActivity extends AppCompatActivity {
                 lnLayoutHeight = lnLayout.getHeight();
             }
         });
-        screen();
-        countBack();
-        fastMoveZombie();
+        startGame();
       pj.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -87,6 +88,16 @@ public class GameActivity extends AppCompatActivity {
                }
            }
        });
+    }
+    private void startGame(){
+        gameOver=false;
+        click=false;
+        count=0;
+        screen();
+        countBack();
+        countDownTimer.start();
+        tVtime.setText(R.string.time_game);
+        fastMoveZombie();
     }
     private void screen(){
         Display display=getWindowManager().getDefaultDisplay();
@@ -109,12 +120,13 @@ public class GameActivity extends AppCompatActivity {
         pj.setX(randomX);
         pj.setY(randomY);
     }
-    private void countBack(){
-            new CountDownTimer(10000, 1000) {
+    private void countBack() {
+            countDownTimer=new CountDownTimer(10000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     if(!gameOver) {
                         long secondsBack = millisUntilFinished / 1000;
+                        Log.d("time",secondsBack+"");
                         tVtime.setText(secondsBack + " S");
                     }
                 }
@@ -126,8 +138,10 @@ public class GameActivity extends AppCompatActivity {
                         GameOver(null);
                     }
                 }
-            }.start();
+            };
+
     }
+
     public String randomPJ(){
         String pjImages[] = {"pjzombie","pjzombie","pjzombiecoco","pjhuman", "pjzombie"};
         int nrandom = (int) Math.floor(Math.random() * pjImages.length);
@@ -156,6 +170,7 @@ public class GameActivity extends AppCompatActivity {
     }
     private void GameOver(String lose){
         intent=new Intent(GameActivity.this, GameOverActivity.class);
+        countDownTimer.cancel();
         gameOver=true;
         intent.putExtra("name",name);
         intent.putExtra("killzombie",count);
@@ -202,5 +217,18 @@ public class GameActivity extends AppCompatActivity {
         preferencesEditor.putInt("count", count);
         preferencesEditor.putString("name", name);
         preferencesEditor.apply();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == TEXTO_RESPUESTA){
+            if(resultCode == RESULT_OK){
+                String answer = data.getStringExtra(GameOverActivity.EXTRA_REPLY);
+                Log.d("answer",answer);
+                if(answer!="restart"){
+                    startGame();
+                }
+            }
+        }
     }
 }
