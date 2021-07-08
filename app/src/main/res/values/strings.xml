@@ -4,6 +4,7 @@
     <string name="btn_singin">Regístrate</string>
     <string name="img_desccription">Imágen con el título descriptivo del juego.</string>
     <string name="name">Nombre</string>
+    <string name="country">País</string>
     <string name="password">Contraseña</string>
     <string name="email">Correo electrónico</string>
     <string name="date">Fecha</string>
@@ -37,4 +38,9 @@
     <string name="go_menu">IR AL MENÚ</string>
     <string name="game_again">VOLVER aJUGAR</string>
     <string name="show_score">VER PUNTUACIONES</string>
+
+    <string name="player_name">Nombre: </string>
+    <string name="player_country">País: </string>
+    <string name="player_date">Fecha de inicio: </string>
+    <string name="player_score">Puntaje: </string>
 </resources>

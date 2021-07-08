@@ -23,6 +23,13 @@
             android:textColor="@color/zombie"
             android:textSize="30sp"></TextView>
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/soldado"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +43,23 @@
                 android:hint="@string/name"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
+                android:textColor="@color/red"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/zombie">
+
+            <EditText
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="@string/country"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:textColor="@color/red"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -97,12 +121,5 @@
             android:text="@string/btn_register"
             android:textColor="@color/red"
             app:backgroundTint="@color/zombie"></Button>
-
-        <ImageView
-            android:id="@+id/bgz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/bgz0"
-            android:layout_gravity="bottom"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

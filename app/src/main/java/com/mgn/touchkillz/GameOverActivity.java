@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -106,6 +108,8 @@ public class GameOverActivity extends AppCompatActivity {
     public void playerScore(){
             score=Integer.parseInt(MenuActivity.score)+count;
             dataSave("zombies",score);
+            DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("zombies");
+            myRef.keepSynced(true);
     }
     public void widhtScreen(){
         Display display=getWindowManager().getDefaultDisplay();
@@ -115,21 +119,14 @@ public class GameOverActivity extends AppCompatActivity {
         lnLayout.setMinimumWidth((widthScreen*8/10));
     }
     public void dataSave(String key,int zombies){
-        HashMap<String,Object> hashMap=new HashMap<>();
-        hashMap.put(key,zombies);
-        reference.child(user.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(GameOverActivity.this, zombies+ "zombies...", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    @Override
-    protected void onPause(){
-        SharedPreferences.Editor preferencesEditor = getSharedPreferences(MenuActivity.sharedPrefFile, MODE_PRIVATE).edit();
-        preferencesEditor.putString("zombies", String.valueOf(score));
-        preferencesEditor.apply();
-        super.onPause();
+            HashMap<String,Object> hashMap=new HashMap<>();
+            hashMap.put(key,zombies);
+            reference.child(user.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(GameOverActivity.this, "Puntuación: "+zombies, Toast.LENGTH_SHORT).show();
+                }
+            });
     }
     @Override
     public void onBackPressed() {

@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Patterns;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
-    EditText eTname,eTemail,eTpassword;
+    EditText eTname,eTcountry,eTemail,eTpassword;
     TextView eTdate;
     Button btnRegister;
-    ImageView bgz;
     FirebaseAuth auth; //Firebase Autenticación.
 
     @Override
@@ -41,11 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         eTname=findViewById(R.id.name);
+        eTcountry=findViewById(R.id.country);
         eTemail=findViewById(R.id.email);
         eTpassword=findViewById(R.id.password);
         eTdate=findViewById(R.id.date);
         btnRegister=findViewById(R.id.btnRegister);
-        bgz=findViewById(R.id.bgz);
         auth=FirebaseAuth.getInstance();
         //Obteniendo valor para la fecha.
         Date date=new Date();
@@ -57,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name=eTname.getText().toString();
                 name=name.trim();
+                String country=eTcountry.getText().toString();
                 String email=eTemail.getText().toString();
                 String password=eTpassword.getText().toString();
                 if(name.length()==0 || name.length()<2){
@@ -71,14 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if(!isOnline()){
                     Toast.makeText(RegisterActivity.this, "¡Compruebe su conexión a internet!", Toast.LENGTH_SHORT).show();
                 }else{
-                    PlayerRegister(name,email,password);
+                    PlayerRegister(name,country,email,password);
                 }
             }
         });
-        changeImagen();
     }
 
-    private void PlayerRegister(String name,String email,String password)  {
+    private void PlayerRegister(String name,String country,String email,String password)  {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -93,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity {
                             HashMap<Object, Object> playerData = new HashMap<>();
                             playerData.put("uid", uid);
                             playerData.put("name", name);
+                            playerData.put("country", country);
+                            playerData.put("image", "");
                             playerData.put("email", email);
                             playerData.put("password", MD5(password));
                             playerData.put("date", date);
@@ -148,25 +146,6 @@ public class RegisterActivity extends AppCompatActivity {
             throw new RuntimeException(ex);
         }
     }*/
-    private void changeImagen(){
-        String bgImages[] = {"bgz0", "bgz1","bgz2","bgz3"};
-        Handler handler=new Handler();
-        Runnable run=new Runnable() {
-            @Override
-            public void run() {
-                int nrandom = (int) Math.floor(Math.random() * bgImages.length);
-                int idImage = RegisterActivity.this.getResources().getIdentifier(bgImages[nrandom], "drawable", RegisterActivity.this.getPackageName());
-                AlphaAnimation animation1 = new AlphaAnimation(0.5f, 1.0f); //here is a bit of animation for ya ;)
-                animation1.setDuration(1000);
-                animation1.setStartOffset(300); //time for that color effect
-                animation1.setFillAfter(true);
-                bgz.startAnimation(animation1);
-                bgz.setImageResource(idImage);
-                handler.postDelayed(this,1000);
-            }
-        };
-        handler.postDelayed(run,1000);
-    }
     private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(RegisterActivity.this.CONNECTIVITY_SERVICE);

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button btnLogin,btnSingin;

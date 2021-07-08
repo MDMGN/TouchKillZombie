@@ -26,7 +26,16 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             app:srcCompat="@drawable/imgpf"
-            android:contentDescription="@string/img_desccription"/>
+            android:contentDescription="@string/img_desccription"
+            android:visibility="gone"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@drawable/soldado"
+            android:id="@+id/imgProfile"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="gone"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

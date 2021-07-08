@@ -1,15 +1,23 @@
 package com.mgn.touchkillz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,6 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +38,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MenuActivity extends AppCompatActivity {
     FirebaseAuth auth;
@@ -37,12 +56,24 @@ public class MenuActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
     public static String sharedPrefFile ="com.mgn.touchkillz";
 
-    String name;
+    String name,imagenProfile;
     public static String score;
 
     Button btnSingOut,btnPlay,btnRecordall,btnInfo;
     TextView nameUser,recordUser,recorText;
+    CircleImageView imgProfile;
     ImageView imgpf;
+
+    boolean imageProfile;
+    private StorageReference storageReference;
+    private String pathStorage="pictures_profiles/*";
+    /*Permisos*/
+    private static  final int KEY_STORAGE=200;
+    private static  final int SELECT_IMAGE=300;
+    /*MATRICES*/
+    private String [] permissionStorage;
+    private Uri imageUri;
+    private String  profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +81,16 @@ public class MenuActivity extends AppCompatActivity {
 
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
-        firebaseDatabase=firebaseDatabase.getInstance();
+        firebaseDatabase=FirebaseDatabase.getInstance();
         reference=firebaseDatabase.getReference("Data players");
+
+        imgProfile=findViewById(R.id.imgProfile);
+        storageReference= FirebaseStorage.getInstance().getReference();
+        permissionStorage=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         nameUser=findViewById(R.id.nameUser);
         recordUser=findViewById(R.id.recorUser);
 
-        //font zombie.TTF.
         recorText=findViewById(R.id.recordText);
         String path="fonts/edosz.ttf";
         Typeface tf=Typeface.createFromAsset(MenuActivity.this.getAssets(),path);
@@ -81,7 +115,6 @@ public class MenuActivity extends AppCompatActivity {
                intent.putExtra("name",name);
                intent.putExtra("recordpoint",recordpoint);
                startActivity(intent);
-               //finish();
            }
        });
         btnRecordall.setOnClickListener(new View.OnClickListener() {
@@ -102,21 +135,34 @@ public class MenuActivity extends AppCompatActivity {
                 onClickShowAlert(v);
             }
         });
-        changeImagen();
+            if(!imageProfile){
+                changeImagen();
+            imgpf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateDataUser();
+                }
+            });
+            }else {
+                imgProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateDataUser();
+                    }
+                });
+            }
     }
     public void isUserLogin(){
         if(user != null){
+            consultUsers();
+            //Almacenar datos si no hay conexión de manera local.
+            DatabaseReference myRef=FirebaseDatabase.getInstance().getReference("people");
+            myRef.keepSynced(true);
             if(isOnline()) {
-                consultUsers();
+                Toast.makeText(MenuActivity.this, "Jugador en línea", Toast.LENGTH_SHORT).show();
             }else{
-                    mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-                name=mPreferences.getString("name",null);
-                score=mPreferences.getString("zombies","0");
-                nameUser.setText(name);
-                recordUser.setText(score);
-                btnPlay.setEnabled(true);
+                Toast.makeText(this, "Jugador sin conexión", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(MenuActivity.this, "Jugador en línea", Toast.LENGTH_SHORT).show();
         }else{
             startActivity(new Intent(MenuActivity.this,MainActivity.class));
             finish();
@@ -151,6 +197,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
+        imgpf.setVisibility(View.VISIBLE);
         Handler handler=new Handler();
         Runnable run=new Runnable() {
             @Override
@@ -180,6 +227,15 @@ public class MenuActivity extends AppCompatActivity {
                     nameUser.setText(name);
                     recordUser.setText(score);
                     btnPlay.setEnabled(true);
+                    try {
+                        imagenProfile=ds.child("image").getValue().toString();
+                        Picasso.get().load(imagenProfile).into(imgpf);
+                        imageProfile=true;
+                        imgProfile.setVisibility(View.VISIBLE);
+                    }catch (Exception e){
+                        imageProfile=false;
+                        Toast.makeText(MenuActivity.this, "No hay Imagen cargada para tu perfil.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -196,11 +252,132 @@ public class MenuActivity extends AppCompatActivity {
         return (networkInfo != null && networkInfo.isConnected());
     }
     @Override
-    protected void onPause(){
-            SharedPreferences.Editor preferencesEditor = getSharedPreferences(sharedPrefFile, MODE_PRIVATE).edit();
-            preferencesEditor.putString("zombies", score);
-            preferencesEditor.putString("name", name);
-            preferencesEditor.apply();
-        super.onPause();
+    protected void onResume(){
+        isUserLogin();
+        super.onResume();
+    }
+    private void updateDataUser(){
+        String[] option={"Elegir imagen","Cancelar"};
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(i==0){
+                    profile="image";
+                    UpdateImageProfile();
+                    Toast.makeText(MenuActivity.this, "Cambiar foto de perfil", Toast.LENGTH_SHORT).show();
+                }else if(i==1){
+                    dialogInterface.cancel();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+    private void UpdateImageProfile() {
+        String[] opciones={"Galeria"};
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Seleccionar imagen de: ");
+        builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==0){
+                    //Seleccionar Galeria.
+                    if(!isPermissionStorage()){
+                        SolicitarPermissionStorage();
+                    }else{
+                        selectImageGalery();
+                    }
+                }
+            }
+        });
+        builder.create().show();
+    }
+//PERMISOS DE ALMACENAMIENTO EN TIEMPO DE EJECUCION
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void SolicitarPermissionStorage() {
+        requestPermissions(permissionStorage,KEY_STORAGE);
+    }
+    //COMPRUEBA SI LOS PERMISOS DE ALMACENAMIENTO ESTAN HSBILITADOS.
+    private boolean isPermissionStorage() {
+        boolean result= ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+//SE LLAMA EL USUARIO  O JUGADOR PRESIONA PERMITIR O DENEGAR EN EL CUADRO DE DIALOG.
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case  KEY_STORAGE:
+                if(grantResults.length>0){
+                    boolean writeStorage=grantResults[0]==PackageManager.PERMISSION_GRANTED;
+                    if(writeStorage){
+                        //PERMISO HABILITADO
+                        selectImageGalery();
+                    }else{
+                        Toast.makeText(this, "No se obtuvo el permiso.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    //SE LLAMA CUANDO EL USUARIO YA ELEGIDO LA IMAGEN.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode==RESULT_OK){
+            if(resultCode==SELECT_IMAGE){
+                imageUri=data.getData();
+                imgpf.setVisibility(View.GONE);
+                imageProfile=true;
+                imgProfile.setVisibility(View.VISIBLE);
+                uploadPicture(imageUri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+//Actulizar y subir imagen a la base de datos de FireBase.
+    private void uploadPicture(Uri imageUri) {
+        String pathFileandname=pathStorage+""+profile+user.getUid();
+        StorageReference storageReferenceUpload=storageReference.child(pathFileandname);
+        storageReferenceUpload.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
+                        while(!uriTask.isSuccessful());
+                        Uri downloadUri=uriTask.getResult();
+                            if(uriTask.isSuccessful()){
+                                HashMap<String,Object> result=new HashMap<>();
+                                result.put(profile,downloadUri.toString());
+                                reference.child(user.getUid()).updateChildren(result)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(MenuActivity.this, "Imagen de perfil actualizada.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(MenuActivity.this, "HA OCURRIDO UN ERROR.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(MenuActivity.this, "Ha ocurrido un error al subir la imagen.", Toast.LENGTH_SHORT).show();
+                            }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MenuActivity.this, ""+e, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Abrir galeria.
+    private void selectImageGalery() {
+        Intent intentGallery=new Intent(Intent.ACTION_PICK);
+        intentGallery.setType("image/*");
+        startActivityForResult(intentGallery,SELECT_IMAGE);
     }
 }

@@ -29,6 +29,13 @@
             android:textColor="@color/zombie"
             android:textSize="30sp"></TextView>
 
+        <ImageView
+            android:id="@+id/bgz"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:srcCompat="@drawable/bgz0"
+            android:layout_gravity="center"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
