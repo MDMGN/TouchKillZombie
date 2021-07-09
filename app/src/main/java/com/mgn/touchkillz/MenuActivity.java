@@ -91,7 +91,7 @@ public class MenuActivity extends AppCompatActivity {
         recorText=findViewById(R.id.recordText);
         String path="fonts/edosz.ttf";
         Typeface tf=Typeface.createFromAsset(MenuActivity.this.getAssets(),path);
-        //imgpf=findViewById(R.id.imgpf);
+        imgpf=findViewById(R.id.imgpf);
         btnPlay=findViewById(R.id.btnPlay);
         btnRecordall=findViewById(R.id.btnRecordall);
         btnInfo=findViewById(R.id.btnInfo);
@@ -133,22 +133,22 @@ public class MenuActivity extends AppCompatActivity {
                 onClickShowAlert(v);
             }
         });
-            /*if(!imageProfile){
-                //changeImagen();
+            if(!imageProfile){
+                changeImagen();
             imgpf.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     updateDataUser();
                 }
-            });*/
-           // }else {
+            });
+           }else {
                 imgProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         updateDataUser();
                     }
                 });
-            //}
+            }
     }
     public void isUserLogin(){
         if(user != null){
@@ -193,7 +193,7 @@ public class MenuActivity extends AppCompatActivity {
         myAlertBuilder.show();
     }
 
-    /*private void changeImagen(){
+    private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
         imgpf.setVisibility(View.VISIBLE);
         Handler handler=new Handler();
@@ -207,7 +207,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(run,1000);
-    }*/
+    }
     @Override
     protected void onStart() {
         isUserLogin();
@@ -229,7 +229,7 @@ public class MenuActivity extends AppCompatActivity {
                         imagenProfile=ds.child("image").getValue().toString();
                         Picasso.get().load(imagenProfile).into(imgProfile);
                         imageProfile=true;
-                       // imgProfile.setVisibility(View.VISIBLE);
+                        imgProfile.setVisibility(View.VISIBLE);
                     }catch (Exception e){
                         imageProfile=false;
                         Toast.makeText(MenuActivity.this, "No hay Imagen cargada para tu perfil.", Toast.LENGTH_SHORT).show();
@@ -255,21 +255,21 @@ public class MenuActivity extends AppCompatActivity {
         super.onResume();
     }
     private void updateDataUser(){
-        String[] option={"Elegir imagen","Cancelar"};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setItems(option, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(i==0){
-                    profile="image";
-                    UpdateImageProfile();
-                    Toast.makeText(MenuActivity.this, "Cambiar foto de perfil", Toast.LENGTH_SHORT).show();
-                }else if(i==1){
-                    dialogInterface.cancel();
+            String[] option = {"Elegir imagen", "Cancelar"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(option, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (i == 0) {
+                        profile = "image";
+                        UpdateImageProfile();
+                        Toast.makeText(MenuActivity.this, "Cambiar foto de perfil", Toast.LENGTH_SHORT).show();
+                    } else if (i == 1) {
+                        dialogInterface.cancel();
+                    }
                 }
-            }
-        });
-        builder.create().show();
+            });
+            builder.create().show();
     }
 
     private void UpdateImageProfile() {
@@ -326,9 +326,9 @@ public class MenuActivity extends AppCompatActivity {
         if(resultCode==RESULT_OK){
             if(requestCode==SELECT_IMAGE){
                 imageUri=data.getData();
-                //imgpf.setVisibility(View.GONE);
-                //imageProfile=true;
-                //imgProfile.setVisibility(View.VISIBLE);
+                imgpf.setVisibility(View.GONE);
+                imageProfile=true;
+                imgProfile.setVisibility(View.VISIBLE);
                 uploadPicture(imageUri);
             }
         }
@@ -374,8 +374,12 @@ public class MenuActivity extends AppCompatActivity {
 
     //Abrir galeria.
     private void selectImageGalery() {
-        Intent intentGallery=new Intent(Intent.ACTION_PICK);
-        intentGallery.setType("image/*");
-        startActivityForResult(intentGallery,SELECT_IMAGE);
+        if(isOnline()){
+            Intent intentGallery=new Intent(Intent.ACTION_PICK);
+            intentGallery.setType("image/*");
+            startActivityForResult(intentGallery,SELECT_IMAGE);
+        }else {
+            Toast.makeText(this, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show();
+        }
     }
 }
