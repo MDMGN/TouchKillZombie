@@ -120,7 +120,8 @@ public class MenuActivity extends AppCompatActivity {
         btnRecordall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MenuActivity.this, "Puntuaciones", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MenuActivity.this,ListScoreUsersActivity.class);
+                startActivity(intent);
             }
         });
         btnInfo.setOnClickListener(new View.OnClickListener() {

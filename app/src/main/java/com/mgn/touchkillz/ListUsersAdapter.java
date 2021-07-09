@@ -29,7 +29,7 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
     //Inflamos el diseño
     public Myholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.players_list,parent,false);
-        return null;
+        return new Myholder(view);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
         String name=listUser.get(position).getName();
         String country=listUser.get(position).getCountry();
         String date=listUser.get(position).getDate();
-        int score=listUser.get(position).getScore();
+        int score=listUser.get(position).getZombies();
         String zombie=String.valueOf(score);
         holder.playerName.setText(name);
         holder.countryPlayer.setText(country);
@@ -54,7 +54,7 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listUser.size();
     }
 
     public class Myholder extends RecyclerView.ViewHolder{

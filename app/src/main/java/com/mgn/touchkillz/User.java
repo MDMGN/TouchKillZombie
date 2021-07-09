@@ -1,36 +1,30 @@
 package com.mgn.touchkillz;
 
-import android.media.Image;
 
-public class User {
-String name,email,date,image,country,password,uid;
-int score;
+import java.io.Serializable;
 
-    public User(String name, String email, String date, String image, String country, String password, String uid, int score) {
-        this.name = name;
-        this.email = email;
-        this.date = date;
-        this.image = image;
+public class User implements Serializable {
+String country,date,email,image,name,password,uid;
+int zombies;
+    public User(){}
+    public User(String country, String date, String email, String image, String name, String password, int zombies, String uid) {
         this.country = country;
+        this.date = date;
+        this.email = email;
+        this.image = image;
+        this.name = name;
         this.password = password;
         this.uid = uid;
-        this.score = score;
+        this.zombies = zombies;
     }
 
-    public String getName() {
-        return name;
+
+    public String getCountry() {
+        return country;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getDate() {
@@ -41,6 +35,14 @@ int score;
         this.date = date;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getImage() {
         return image;
     }
@@ -49,12 +51,12 @@ int score;
         this.image = image;
     }
 
-    public String getCountry() {
-        return country;
+    public String getName() {
+        return name;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -73,12 +75,11 @@ int score;
         this.uid = uid;
     }
 
-    public int getScore() {
-        return score;
+    public int getZombies() {
+        return zombies;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setZombies(int zombies) {
+        this.zombies = zombies;
     }
-
 }
