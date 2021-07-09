@@ -54,13 +54,6 @@ public class GameActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
-        /*SpannableString actionbarTitle = new SpannableString("¡Cerebros!");
-        actionbarTitle.setSpan(new TypefaceSpan(this,"fonts/edosz.ttf"), 0, actionbarTitle.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // Update the action bar title with the TypefaceSpan instance
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle(actionbarTitle);*/
-        //getSupportActionBar().setTitle(Html.fromHtml("<font color=\"red\">" +getString("¡Cerebros!") + "</font>"));
 
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
@@ -71,15 +64,10 @@ public class GameActivity extends AppCompatActivity {
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
-        mPreferences = getSharedPreferences(MenuActivity.sharedPrefFile, MODE_PRIVATE);
-        name=mPreferences.getString("name",null);
         points="0";
-        if(isOnline() ) {
-            name=intent.getString("name");
-            points=intent.getString("recordpoint");
-        }
+        name=intent.getString("name");
         pointsUser.setText(points);
-       nameUser.setText(name);
+        nameUser.setText(name);
         lnLayout.post(new Runnable(){
             public void run(){
                 lnLayoutHeight = lnLayout.getHeight();
@@ -212,24 +200,10 @@ public class GameActivity extends AppCompatActivity {
             click=false;
         }
     }
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(GameActivity.this.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
+
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
-    }
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putInt("count", count);
-        preferencesEditor.putString("name", name);
-        preferencesEditor.apply();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

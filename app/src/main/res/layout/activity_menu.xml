@@ -21,21 +21,20 @@
             android:textSize="50sp"
             android:textColor="@color/red"
             android:gravity="center"></TextView>
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgpf"
             android:layout_width="250dp"
             android:layout_height="250dp"
             app:srcCompat="@drawable/imgpf"
             android:contentDescription="@string/img_desccription"
-            android:visibility="gone"/>
+            android:visibility="gone"/>-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:src="@drawable/soldado"
             android:id="@+id/imgProfile"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:visibility="gone"/>
+            android:layout_height="150dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

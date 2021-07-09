@@ -53,9 +53,6 @@ public class MenuActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
 
-    private SharedPreferences mPreferences;
-    public static String sharedPrefFile ="com.mgn.touchkillz";
-
     String name,imagenProfile;
     public static String score;
 
@@ -94,7 +91,7 @@ public class MenuActivity extends AppCompatActivity {
         recorText=findViewById(R.id.recordText);
         String path="fonts/edosz.ttf";
         Typeface tf=Typeface.createFromAsset(MenuActivity.this.getAssets(),path);
-        imgpf=findViewById(R.id.imgpf);
+        //imgpf=findViewById(R.id.imgpf);
         btnPlay=findViewById(R.id.btnPlay);
         btnRecordall=findViewById(R.id.btnRecordall);
         btnInfo=findViewById(R.id.btnInfo);
@@ -136,22 +133,22 @@ public class MenuActivity extends AppCompatActivity {
                 onClickShowAlert(v);
             }
         });
-            if(!imageProfile){
-                changeImagen();
+            /*if(!imageProfile){
+                //changeImagen();
             imgpf.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     updateDataUser();
                 }
-            });
-            }else {
+            });*/
+           // }else {
                 imgProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         updateDataUser();
                     }
                 });
-            }
+            //}
     }
     public void isUserLogin(){
         if(user != null){
@@ -196,7 +193,7 @@ public class MenuActivity extends AppCompatActivity {
         myAlertBuilder.show();
     }
 
-    private void changeImagen(){
+    /*private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
         imgpf.setVisibility(View.VISIBLE);
         Handler handler=new Handler();
@@ -210,7 +207,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(run,1000);
-    }
+    }*/
     @Override
     protected void onStart() {
         isUserLogin();
@@ -230,9 +227,9 @@ public class MenuActivity extends AppCompatActivity {
                     btnPlay.setEnabled(true);
                     try {
                         imagenProfile=ds.child("image").getValue().toString();
-                        Picasso.get().load(imagenProfile).into(imgpf);
+                        Picasso.get().load(imagenProfile).into(imgProfile);
                         imageProfile=true;
-                        imgProfile.setVisibility(View.VISIBLE);
+                       // imgProfile.setVisibility(View.VISIBLE);
                     }catch (Exception e){
                         imageProfile=false;
                         Toast.makeText(MenuActivity.this, "No hay Imagen cargada para tu perfil.", Toast.LENGTH_SHORT).show();
@@ -327,11 +324,11 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode==RESULT_OK){
-            if(resultCode==SELECT_IMAGE){
+            if(requestCode==SELECT_IMAGE){
                 imageUri=data.getData();
-                imgpf.setVisibility(View.GONE);
-                imageProfile=true;
-                imgProfile.setVisibility(View.VISIBLE);
+                //imgpf.setVisibility(View.GONE);
+                //imageProfile=true;
+                //imgProfile.setVisibility(View.VISIBLE);
                 uploadPicture(imageUri);
             }
         }
