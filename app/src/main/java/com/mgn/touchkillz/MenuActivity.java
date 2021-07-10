@@ -5,24 +5,26 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.net.PasswordAuthentication;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -61,7 +64,6 @@ public class MenuActivity extends AppCompatActivity {
     CircleImageView imgProfile;
     ImageView imgpf;
 
-    boolean imageProfile;
     private StorageReference storageReference;
     private String pathStorage="pictures_profiles/*";
     /*Permisos*/
@@ -81,6 +83,7 @@ public class MenuActivity extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
         reference=firebaseDatabase.getReference("Data players");
 
+        imgpf=findViewById(R.id.imgpf);
         imgProfile=findViewById(R.id.imgProfile);
         storageReference= FirebaseStorage.getInstance().getReference();
         permissionStorage=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -91,7 +94,6 @@ public class MenuActivity extends AppCompatActivity {
         recorText=findViewById(R.id.recordText);
         String path="fonts/edosz.ttf";
         Typeface tf=Typeface.createFromAsset(MenuActivity.this.getAssets(),path);
-        imgpf=findViewById(R.id.imgpf);
         btnPlay=findViewById(R.id.btnPlay);
         btnRecordall=findViewById(R.id.btnRecordall);
         btnInfo=findViewById(R.id.btnInfo);
@@ -133,22 +135,18 @@ public class MenuActivity extends AppCompatActivity {
                 onClickShowAlert(v);
             }
         });
-            if(!imageProfile){
-                changeImagen();
-            imgpf.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateDataUser();
-                }
-            });
-           }else {
-                imgProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateDataUser();
-                    }
-                });
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateImageProfile();
             }
+        });
+        imgpf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateImageProfile();
+            }
+        });
     }
     public void isUserLogin(){
         if(user != null){
@@ -195,7 +193,6 @@ public class MenuActivity extends AppCompatActivity {
 
     private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
-        imgpf.setVisibility(View.VISIBLE);
         Handler handler=new Handler();
         Runnable run=new Runnable() {
             @Override
@@ -228,10 +225,12 @@ public class MenuActivity extends AppCompatActivity {
                     try {
                         imagenProfile=ds.child("image").getValue().toString();
                         Picasso.get().load(imagenProfile).into(imgProfile);
-                        imageProfile=true;
+                        imgpf.setVisibility(View.GONE);
                         imgProfile.setVisibility(View.VISIBLE);
+
                     }catch (Exception e){
-                        imageProfile=false;
+                        imgpf.setVisibility(View.VISIBLE);
+                        changeImagen();
                         Toast.makeText(MenuActivity.this, "No hay Imagen cargada para tu perfil.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -255,26 +254,83 @@ public class MenuActivity extends AppCompatActivity {
         super.onResume();
     }
     private void updateDataUser(){
-            String[] option = {"Elegir imagen", "Cancelar"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String[] option = {"Nombre","Imagen de perfil","País","Contraseña","Cancelar"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.MyDialogTheme);
             builder.setItems(option, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (i == 0) {
+                        updateDataUsers("name","Nombre");
+                    }else if (i == 1) {
                         profile = "image";
                         UpdateImageProfile();
-                        Toast.makeText(MenuActivity.this, "Cambiar foto de perfil", Toast.LENGTH_SHORT).show();
-                    } else if (i == 1) {
-                        dialogInterface.cancel();
+                    }else if (i == 2) {
+                        updateDataUsers("country","País");
+                    }else if (i == 3) {
+                       //updatePassword();
+                    }else if (i == 4) {
+                            dialogInterface.cancel();
                     }
                 }
             });
             builder.create().show();
     }
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
+    }
+    private void updateDataUsers(String key,String text) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        builder.setTitle("Editar "+text);
+        LinearLayoutCompat linearLayoutCompat=new LinearLayoutCompat(this);
+        linearLayoutCompat.setOrientation(LinearLayoutCompat.VERTICAL);
+        linearLayoutCompat.setPadding(10,10,10,10);
+        EditText editText=new EditText(this);
+        editText.setHint(text);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        linearLayoutCompat.addView(editText);
+        builder.setView(linearLayoutCompat);
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String value=editText.getText().toString().trim();
+                HashMap<String,Object> result=new HashMap<>();
+                result.put(key,value);
+                reference.child(user.getUid()).updateChildren(result)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(MenuActivity.this, text+" actualizado correctamente", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MenuActivity.this, ""+e, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MenuActivity.this, text+" no modificado", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.create().show();
+    }
 
     private void UpdateImageProfile() {
         String[] opciones={"Galeria"};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this,R.style.MyDialogTheme);
         builder.setTitle("Seleccionar imagen de: ");
         builder.setItems(opciones, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -326,9 +382,6 @@ public class MenuActivity extends AppCompatActivity {
         if(resultCode==RESULT_OK){
             if(requestCode==SELECT_IMAGE){
                 imageUri=data.getData();
-                imgpf.setVisibility(View.GONE);
-                imageProfile=true;
-                imgProfile.setVisibility(View.VISIBLE);
                 uploadPicture(imageUri);
             }
         }
@@ -380,6 +433,24 @@ public class MenuActivity extends AppCompatActivity {
             startActivityForResult(intentGallery,SELECT_IMAGE);
         }else {
             Toast.makeText(this, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.option:
+                updateDataUser();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

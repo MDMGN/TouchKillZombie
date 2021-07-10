@@ -15,10 +15,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:src="@drawable/rifle"
+        android:id="@+id/imageProfile"
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/rifle"></ImageView>
+        android:layout_height="100dp"/>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:gravity="center"

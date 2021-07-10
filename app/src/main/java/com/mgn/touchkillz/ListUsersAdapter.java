@@ -1,10 +1,12 @@
 package com.mgn.touchkillz;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +50,7 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
         try{
             Picasso.get().load(image).into(holder.imagePlayer);
         }catch (Exception e){
-
+            Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -61,14 +63,21 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
 
         CircleImageView imagePlayer;
         TextView playerName,countryPlayer,datePlayer,scorePlayer;
+        Typeface tf;
 
         public Myholder(View itemView){
             super(itemView);
-            imagePlayer=itemView.findViewById(R.id.imgProfile);
+            imagePlayer=itemView.findViewById(R.id.imageProfile);
             playerName=itemView.findViewById(R.id.playerName);
             datePlayer=itemView.findViewById(R.id.playerDate);
             countryPlayer=itemView.findViewById(R.id.playerCountry);
             scorePlayer=itemView.findViewById(R.id.playerScore);
+
+            tf = Typeface.createFromAsset(itemView.getContext().getAssets(), "fonts/edosz.ttf");
+            this.playerName.setTypeface(tf);
+            this.countryPlayer.setTypeface(tf);
+            this.datePlayer.setTypeface(tf);
+            this.scorePlayer.setTypeface(tf);
         }
 
     }
