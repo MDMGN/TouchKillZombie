@@ -267,7 +267,8 @@ public class MenuActivity extends AppCompatActivity {
                     }else if (i == 2) {
                         updateDataUsers("country","País");
                     }else if (i == 3) {
-                       //updatePassword();
+                       startActivity(new Intent(MenuActivity.this,ChanguePasswordActivity.class));
+                       finish();
                     }else if (i == 4) {
                             dialogInterface.cancel();
                     }
@@ -275,21 +276,8 @@ public class MenuActivity extends AppCompatActivity {
             });
             builder.create().show();
     }
-    public String MD5(String md5) {
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-        }
-        return null;
-    }
     private void updateDataUsers(String key,String text) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Editar "+text);
         LinearLayoutCompat linearLayoutCompat=new LinearLayoutCompat(this);
         linearLayoutCompat.setOrientation(LinearLayoutCompat.VERTICAL);
@@ -330,7 +318,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void UpdateImageProfile() {
         String[] opciones={"Galeria"};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Seleccionar imagen de: ");
         builder.setItems(opciones, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -420,7 +408,8 @@ public class MenuActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MenuActivity.this, ""+e, Toast.LENGTH_SHORT).show();
+
+                 Toast.makeText(MenuActivity.this, ""+e, Toast.LENGTH_SHORT).show();
             }
         });
     }

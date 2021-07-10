@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,8 +29,9 @@ import java.util.Date;
 import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
     EditText eTname,eTcountry,eTemail,eTpassword;
-    TextView eTdate;
+    TextView eTdate,titleRegister;
     Button btnRegister;
+    Typeface tf;
     FirebaseAuth auth; //Firebase Autenticación.
 
     @Override
@@ -41,7 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
         eTemail=findViewById(R.id.email);
         eTpassword=findViewById(R.id.password);
         eTdate=findViewById(R.id.date);
+        titleRegister=findViewById(R.id.titleRegister);
         btnRegister=findViewById(R.id.btnRegister);
+        tf = Typeface.createFromAsset(RegisterActivity.this.getAssets(), "fonts/edosz.ttf");
+        this.titleRegister.setTypeface(tf);
+        this.btnRegister.setTypeface(tf);
+
         auth=FirebaseAuth.getInstance();
         //Obteniendo valor para la fecha.
         Date date=new Date();

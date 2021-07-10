@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button btnLogin,btnSingin;
     ImageView handzombie;
+    Typeface tf;
     public static Activity fa;
     int count;
     @Override
@@ -24,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         fa = this;
         btnLogin=findViewById(R.id.btninLogin);
         btnSingin=findViewById(R.id.btnSingin);
+        tf = Typeface.createFromAsset(MainActivity.this.getAssets(), "fonts/edosz.ttf");
+        this.btnLogin.setTypeface(tf);
+        this.btnSingin.setTypeface(tf);
+
         handzombie=findViewById(R.id.handzImagen);
         count=0;
         animationHandZombie(handzombie);

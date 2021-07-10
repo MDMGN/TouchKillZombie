@@ -46,4 +46,9 @@
     <string name="player_country">País: </string>
     <string name="player_date">Fecha de inicio: </string>
     <string name="player_score">Puntaje: </string>
+
+    <string name="current_password">Contraseña Actual</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="changue_password">Cambiar Contraseña</string>
+    <string name="btn_acept">Aceptar</string>
 </resources>

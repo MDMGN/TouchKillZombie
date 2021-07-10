@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     EditText eTemail,eTpassword;
+    TextView titleLogin;
     ImageView bgz;
+    Typeface tf;
     Button btnLogin;
     FirebaseAuth auth;
     @Override
@@ -36,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         eTemail=findViewById(R.id.email);
         eTpassword=findViewById(R.id.password);
         btnLogin=findViewById(R.id.btnLogin);
+        titleLogin=findViewById(R.id.titleLogin);
+        tf = Typeface.createFromAsset(LoginActivity.this.getAssets(), "fonts/edosz.ttf");
+        this.titleLogin.setTypeface(tf);
+        this.btnLogin.setTypeface(tf);
+
         auth=FirebaseAuth.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

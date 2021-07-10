@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="20dp"
     android:elevation="2dp"
     app:contentPadding="5dp">
 <androidx.appcompat.widget.LinearLayoutCompat
