@@ -9,6 +9,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -63,6 +64,8 @@ public class MenuActivity extends AppCompatActivity {
     TextView nameUser,recordUser,recorText;
     CircleImageView imgProfile;
     ImageView imgpf;
+    Dialog dialog;
+    Typeface tf;
 
     private StorageReference storageReference;
     private String pathStorage="pictures_profiles/*";
@@ -83,6 +86,8 @@ public class MenuActivity extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
         reference=firebaseDatabase.getReference("Data players");
 
+        profile="image";
+        dialog=new Dialog(MenuActivity.this);
         imgpf=findViewById(R.id.imgpf);
         imgProfile=findViewById(R.id.imgProfile);
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -126,7 +131,7 @@ public class MenuActivity extends AppCompatActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MenuActivity.this, "Acerca de", Toast.LENGTH_SHORT).show();
+                about();
             }
         });
         btnSingOut.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +153,29 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void about() {
+        TextView tVdeveloped,tVdev;
+        Button btnOk;
+        dialog.setContentView(R.layout.about_dialog);
+        tVdeveloped=dialog.findViewById(R.id.developedText);
+        tVdev=dialog.findViewById(R.id.devText);
+        btnOk=dialog.findViewById(R.id.btnOk);
+
+        tf = Typeface.createFromAsset(MenuActivity.this.getAssets(), "fonts/edosz.ttf");
+        tVdeveloped.setTypeface(tf);
+        tVdev.setTypeface(tf);
+        btnOk.setTypeface(tf);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     public void isUserLogin(){
         if(user != null){
             consultUsers();
@@ -262,7 +290,7 @@ public class MenuActivity extends AppCompatActivity {
                     if (i == 0) {
                         updateDataUsers("name","Nombre");
                     }else if (i == 1) {
-                        profile = "image";
+                        //profile = "image";
                         UpdateImageProfile();
                     }else if (i == 2) {
                         updateDataUsers("country","País");

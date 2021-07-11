@@ -65,6 +65,8 @@ Typeface tf;
                 }else if(TextUtils.isEmpty(newPassword)){
                     eTnewPassword.setError("El campo no debe estar vacío");
                     eTnewPassword.setFocusable(true);
+                }else if(currentPassword.length()<6 || newPassword.length()<6){
+                    Toast.makeText(ChanguePasswordActivity.this, "6 carácteres como mínimo.", Toast.LENGTH_SHORT).show();
                 }
                 if(!TextUtils.isEmpty(currentPassword) && !TextUtils.isEmpty(newPassword) && currentPassword.length()>=6 && newPassword.length()>=6){
                     changuePasswordUser(currentPassword,newPassword);

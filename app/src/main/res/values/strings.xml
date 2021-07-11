@@ -51,4 +51,9 @@
     <string name="new_password">Nueva contraseña</string>
     <string name="changue_password">Cambiar Contraseña</string>
     <string name="btn_acept">Aceptar</string>
+
+    <!--About-->
+    <string name="deveveloped">Desarrolado por:  </string>
+    <string name="dev">Darren Michael (MDMGN)</string>
+    <string name="ok">OK</string>
 </resources>

@@ -98,6 +98,14 @@ public class GameOverActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnShowScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GameOverActivity.this,ListScoreUsersActivity.class));
+                GameActivity.ga.finish();
+                finish();
+            }
+        });
     }
     public void isLosePlayer(){
         String lose=bundle.getString("lose");

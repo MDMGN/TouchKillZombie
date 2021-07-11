@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TouchKillZombie">
-        <activity android:name=".ChanguePasswordActivity"></activity>
+        <activity android:name=".ChanguePasswordActivity"
+            android:screenOrientation="portrait"></activity>
+
         <activity android:name=".ListScoreUsersActivity" />
         <activity
             android:name=".GameOverActivity"
