@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -149,6 +150,7 @@ public class GameActivity extends AppCompatActivity {
         return pjImages[nrandom];
     }
     private void actionPJ(String pjImage){
+        soundInsert("kill");
         int idImageKill = GameActivity.this.getResources().getIdentifier(pjImage+"_kill", "drawable",GameActivity.this.getPackageName());
         pj.setImageResource(idImageKill);
         AlphaAnimation animation = new AlphaAnimation(0.5f, 1.0f); //here is a bit of animation for ya ;)
@@ -168,6 +170,18 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
         pointsUser.setText(String.valueOf(count));
+    }
+    public void soundInsert(String action) {
+        //https://freesound.org/search/?q=music+zombie&f=&s=score+desc&advanced=0&g=1
+        int sound = 0;
+        switch (action) {
+            case "kill":
+                sound = R.raw.zombie_death;
+                break;
+        }
+        final MediaPlayer soundClick= MediaPlayer.create(this,sound);
+        //soundClick.seekTo(0);
+        soundClick.start();
     }
     private void GameOver(String lose){
         intent=new Intent(GameActivity.this, GameOverActivity.class);

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 count++;
                 if(count==7){
-                    startActivity(new Intent(MainActivity.this,MenuActivity.class));
+                    Toast.makeText(MainActivity.this, "Touch Kill - Zombie", Toast.LENGTH_SHORT).show();
                     count=0;
                 }
             }

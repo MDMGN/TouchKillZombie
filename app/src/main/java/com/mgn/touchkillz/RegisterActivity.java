@@ -3,6 +3,7 @@ package com.mgn.touchkillz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     Typeface tf;
     FirebaseAuth auth; //Firebase Autenticación.
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
         tf = Typeface.createFromAsset(RegisterActivity.this.getAssets(), "fonts/edosz.ttf");
         this.titleRegister.setTypeface(tf);
         this.btnRegister.setTypeface(tf);
+
+        progressDialog=new ProgressDialog(RegisterActivity.this);
+        progressDialog.setMessage("Registrando..");
 
         auth=FirebaseAuth.getInstance();
         //Obteniendo valor para la fecha.
@@ -82,11 +87,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void PlayerRegister(String name,String country,String email,String password)  {
+        progressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            progressDialog.dismiss();
                             FirebaseUser user = auth.getCurrentUser();
                             int point = 0;
                             assert user != null; //Si el usuario no es nulo.
@@ -110,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "¡Registro realizado con éxito!.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "¡No se pudo completar el registro.!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -119,6 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

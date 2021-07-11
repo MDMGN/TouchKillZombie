@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -76,6 +78,7 @@ public class MenuActivity extends AppCompatActivity {
     private String [] permissionStorage;
     private Uri imageUri;
     private String  profile;
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,9 +113,14 @@ public class MenuActivity extends AppCompatActivity {
         btnInfo.setTypeface(tf);
         btnRecordall.setTypeface(tf);
         btnSingOut.setTypeface(tf);
+
        btnPlay.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+              /* int sound = 0;
+               sound = R.raw.btn_play;
+               final MediaPlayer soundClick=MediaPlayer.create(MenuActivity.this,sound);
+               soundClick.start();*/
                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
                String name=nameUser.getText().toString();
                String recordpoint=recordUser.getText().toString();

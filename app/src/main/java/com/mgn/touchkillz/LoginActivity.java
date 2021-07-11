@@ -3,6 +3,7 @@ package com.mgn.touchkillz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     Typeface tf;
     Button btnLogin;
     FirebaseAuth auth;
+
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,26 +67,35 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        progressDialog=new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Iniciando..");
+        progressDialog.setCancelable(false);
         changeImagen();
     }
 
     private void PlayerLogin(String email, String password) {
+        progressDialog.show();
         auth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            progressDialog.dismiss();
                             FirebaseUser user=auth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this,MenuActivity.class));
                             assert user!=null; //Si el usuario no es null.
                             Toast.makeText(LoginActivity.this, "BIENVENIDO(A) "+user.getEmail()+".", Toast.LENGTH_SHORT).show();
                             MainActivity.fa.finish();
                             finish();
+                        }else{
+                            progressDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
