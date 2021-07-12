@@ -40,6 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+
         eTname=findViewById(R.id.name);
         eTcountry=findViewById(R.id.country);
         eTemail=findViewById(R.id.email);

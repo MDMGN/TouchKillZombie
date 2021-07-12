@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,7 +47,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.net.PasswordAuthentication;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,8 +64,9 @@ public class MenuActivity extends AppCompatActivity {
     TextView nameUser,recordUser,recorText;
     CircleImageView imgProfile;
     ImageView imgpf;
-    Dialog dialog;
+    Dialog dialog,dialogDificult;
     Typeface tf;
+    MediaPlayer soundClick;
 
     private StorageReference storageReference;
     private String pathStorage="pictures_profiles/*";
@@ -78,11 +77,12 @@ public class MenuActivity extends AppCompatActivity {
     private String [] permissionStorage;
     private Uri imageUri;
     private String  profile;
-    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
@@ -91,6 +91,7 @@ public class MenuActivity extends AppCompatActivity {
 
         profile="image";
         dialog=new Dialog(MenuActivity.this);
+        dialogDificult=new Dialog(MenuActivity.this);
         imgpf=findViewById(R.id.imgpf);
         imgProfile=findViewById(R.id.imgProfile);
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -114,19 +115,11 @@ public class MenuActivity extends AppCompatActivity {
         btnRecordall.setTypeface(tf);
         btnSingOut.setTypeface(tf);
 
+
        btnPlay.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-              /* int sound = 0;
-               sound = R.raw.btn_play;
-               final MediaPlayer soundClick=MediaPlayer.create(MenuActivity.this,sound);
-               soundClick.start();*/
-               Intent intent=new Intent(MenuActivity.this,GameActivity.class);
-               String name=nameUser.getText().toString();
-               String recordpoint=recordUser.getText().toString();
-               intent.putExtra("name",name);
-               intent.putExtra("recordpoint",recordpoint);
-               startActivity(intent);
+               selectDificult();
            }
        });
         btnRecordall.setOnClickListener(new View.OnClickListener() {
@@ -160,8 +153,14 @@ public class MenuActivity extends AppCompatActivity {
                 UpdateImageProfile();
             }
         });
+        initPlaySound();
     }
 
+    public void initPlaySound() {
+        int sound=R.raw.raw_menu;
+        soundClick= MediaPlayer.create(this,sound);
+        soundClick.setLooping(true);
+    }
     private void about() {
         TextView tVdeveloped,tVdev;
         Button btnOk;
@@ -226,7 +225,6 @@ public class MenuActivity extends AppCompatActivity {
                 });
         myAlertBuilder.show();
     }
-
     private void changeImagen(){
         String bgImages[] = {"imgpf", "imgpf2","imgpf3"};
         Handler handler=new Handler();
@@ -241,6 +239,7 @@ public class MenuActivity extends AppCompatActivity {
         };
         handler.postDelayed(run,1000);
     }
+
     @Override
     protected void onStart() {
         isUserLogin();
@@ -285,8 +284,13 @@ public class MenuActivity extends AppCompatActivity {
         return (networkInfo != null && networkInfo.isConnected());
     }
     @Override
+    protected void onPause() {
+        soundClick.pause();
+        super.onPause();
+    }
+    @Override
     protected void onResume(){
-        isUserLogin();
+        soundClick.start();
         super.onResume();
     }
     private void updateDataUser(){
@@ -353,21 +357,28 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void UpdateImageProfile() {
-        String[] opciones={"Galeria"};
+        String[] opciones={"Galeria","Zombies"};
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Seleccionar imagen de: ");
         builder.setItems(opciones, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(which==0){
-                    //Seleccionar Galeria.
-                    if(!isPermissionStorage()){
-                        SolicitarPermissionStorage();
-                    }else{
-                        selectImageGalery();
-                    }
+                   switch(which){
+                        case 0:
+                                //Seleccionar Galeria.
+                                if(!isPermissionStorage()){
+                                    SolicitarPermissionStorage();
+                                }else{
+                                    selectImageGalery();
+                                }
+                                break;
+                       case 1:
+                           imgProfile.setVisibility(View.GONE);
+                           imgpf.setVisibility(View.VISIBLE);
+                           changeImagen();
                 }
+
             }
         });
         builder.create().show();
@@ -477,5 +488,53 @@ public class MenuActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void selectDificult(){
+            Button btnHard,btnNormal,btnEasy;
+            dialogDificult.setContentView(R.layout.select_dificult);
+            btnHard=dialogDificult.findViewById(R.id.btnHard);
+            btnNormal=dialogDificult.findViewById(R.id.btnNormal);
+            btnEasy=dialogDificult.findViewById(R.id.btnEasy);
+
+            tf = Typeface.createFromAsset(MenuActivity.this.getAssets(), "fonts/edosz.ttf");
+
+            btnHard.setTypeface(tf);
+            btnNormal.setTypeface(tf);
+            btnEasy.setTypeface(tf);
+
+            btnHard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                    String name=nameUser.getText().toString();
+                    intent.putExtra("name",name);
+                    intent.putExtra("dificult","hard");
+                    startActivity(intent);
+                    dialogDificult.dismiss();
+                }
+            });
+        btnNormal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                String name=nameUser.getText().toString();
+                intent.putExtra("name",name);
+                intent.putExtra("dificult","normal");
+                startActivity(intent);
+                dialogDificult.dismiss();
+            }
+        });
+        btnEasy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                String name=nameUser.getText().toString();
+                intent.putExtra("name",name);
+                intent.putExtra("dificult","easy");
+                startActivity(intent);
+                dialogDificult.dismiss();
+            }
+        });
+        dialogDificult.show();
     }
 }

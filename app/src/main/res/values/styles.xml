@@ -8,4 +8,8 @@
         <item name="android:background">@color/blackLight</item>
         <item name="textColorAlertDialogListItem">@color/white</item>
     </style>
+    <style name="MyDialogDificult" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/zombie</item>
+        <item name="textColorAlertDialogListItem">@color/red</item>
+    </style>
 </resources>

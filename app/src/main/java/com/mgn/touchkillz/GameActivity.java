@@ -4,22 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -40,13 +33,15 @@ public class GameActivity extends AppCompatActivity {
     int widthScreen;
     int heightScreen;
     int count;
-    int timeMili=700;
+    int timeMili;
+    int time;
     boolean pclick=false,click;
     Random random;
     boolean gameOver;
     Intent intent;
     public static Activity ga;
     CountDownTimer countDownTimer;
+    String dificult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +50,6 @@ public class GameActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
-
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);
@@ -65,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
         nameUser=findViewById(R.id.tVname);
         tVtime=findViewById(R.id.tVtime);
         Bundle intent=getIntent().getExtras();
+        dificult=intent.getString("dificult");
         points="0";
         name=intent.getString("name");
         pointsUser.setText(points);
@@ -96,10 +91,29 @@ public class GameActivity extends AppCompatActivity {
         click=false;
         count=0;
         screen();
+        isDificult(dificult);
         countBack();
         countDownTimer.start();
         tVtime.setText(R.string.time_game);
         fastMoveZombie();
+    }
+    public void isDificult(String dificult){
+        switch (dificult){
+            case "hard":
+                timeMili=500;
+                time=30000;
+                break;
+            case "normal":
+                timeMili=700;
+                time=15000;
+                break;
+            case "easy":
+                timeMili=800;
+                time=10000;
+                break;
+
+
+        }
     }
     private void screen(){
         Display display=getWindowManager().getDefaultDisplay();
@@ -123,7 +137,7 @@ public class GameActivity extends AppCompatActivity {
         pj.setY(randomY);
     }
     private void countBack() {
-            countDownTimer=new CountDownTimer(15000, 1000) {
+            countDownTimer=new CountDownTimer(time, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     if(!gameOver) {
@@ -145,12 +159,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public String randomPJ(){
-        String pjImages[] = {"pjzombie","pjzombie","pjzombiecoco","pjhuman", "pjzombie"};
+        String pjImages[] = {"pjzombie","pjzombie","pjzombiecoco","pjhuman", "pjzombie","pjzombiedes","pjzombiecrazy","pjzombie"};
         int nrandom = (int) Math.floor(Math.random() * pjImages.length);
         return pjImages[nrandom];
     }
     private void actionPJ(String pjImage){
-        soundInsert("kill");
+        soundInsert("shoot");
         int idImageKill = GameActivity.this.getResources().getIdentifier(pjImage+"_kill", "drawable",GameActivity.this.getPackageName());
         pj.setImageResource(idImageKill);
         AlphaAnimation animation = new AlphaAnimation(0.5f, 1.0f); //here is a bit of animation for ya ;)
@@ -160,11 +174,13 @@ public class GameActivity extends AppCompatActivity {
         pj.startAnimation(animation);
         switch(pjImage){
             case "pjhuman":
+                soundInsert("human");
                 count=0;
                 tVtime.setText(R.string.time_game);
                 GameOver("yes");
                 break;
             default:
+                soundInsert("zombie");
                 count++;
                 click=false;
                 break;
@@ -175,12 +191,18 @@ public class GameActivity extends AppCompatActivity {
         //https://freesound.org/search/?q=music+zombie&f=&s=score+desc&advanced=0&g=1
         int sound = 0;
         switch (action) {
-            case "kill":
-                sound = R.raw.zombie_death;
+            case "shoot":
+                sound=R.raw.kill_shoot;
+                break;
+            case "zombie":
+                sound = R.raw.kill_zombie;
+                break;
+            case "human":
+                sound=R.raw.kill_human;
                 break;
         }
         final MediaPlayer soundClick= MediaPlayer.create(this,sound);
-        //soundClick.seekTo(0);
+        soundClick.seekTo(0);
         soundClick.start();
     }
     private void GameOver(String lose){

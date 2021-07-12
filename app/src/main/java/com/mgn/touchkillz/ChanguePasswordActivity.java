@@ -37,6 +37,8 @@ Typeface tf;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changue_password);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         eTcurrentPassword=findViewById(R.id.eTCurrentpassword);
         eTnewPassword=findViewById(R.id.eTNewPassword);

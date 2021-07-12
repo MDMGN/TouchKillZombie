@@ -20,7 +20,7 @@
     <string name="main">Menú</string>
     <string name="uid">--</string>
     <string name="emailUser">--</string>
-    <string name="nameUser">IncognitoKill</string>
+    <string name="nameUser">--</string>
     <string name="btnPlay">Jugar</string>
     <string name="btn_info">Acerca de</string>
     <string name="btn_recordall">Puntuaciones</string>
@@ -56,4 +56,8 @@
     <string name="deveveloped">Desarrolado por:  </string>
     <string name="dev">Darren Michael (MDMGN)</string>
     <string name="ok">OK</string>
+    <!--Select Dificult-->
+    <string name="hard">Difícil</string>
+    <string name="normal">Normal</string>
+    <string name="easy">Facíl</string>
 </resources>

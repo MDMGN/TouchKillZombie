@@ -2,6 +2,7 @@ package com.mgn.touchkillz;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class ListUsersAdapter extends RecyclerView.Adapter<ListUsersAdapter.Myho
         try{
             Picasso.get().load(image).into(holder.imagePlayer);
         }catch (Exception e){
-            Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+            Log.d("Picasso error",""+e);
         }
     }
 

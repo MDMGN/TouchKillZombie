@@ -39,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+
         bgz=findViewById(R.id.bgz);
         eTemail=findViewById(R.id.email);
         eTpassword=findViewById(R.id.password);
