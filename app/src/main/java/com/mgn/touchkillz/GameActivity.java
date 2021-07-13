@@ -180,7 +180,7 @@ public class GameActivity extends AppCompatActivity {
                 GameOver("yes");
                 break;
             default:
-                //pj.setImageResource(R.drawable.muerte_z);
+                pj.setImageResource(R.drawable.muerte_z);
                 soundInsert("zombie");
                 count++;
                 click=false;

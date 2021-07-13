@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -125,4 +126,4 @@
             android:textColor="@color/red"
             tools:targetApi="lollipop"></Button>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</RelativeLayout>
+</ScrollView>
