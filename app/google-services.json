@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "21536897589",
-    "project_id": "juegos-zombies",
-    "storage_bucket": "juegos-zombies.appspot.com"
+    "project_number": "802032303739",
+    "project_id": "touchkillzombie-a3dbc",
+    "storage_bucket": "touchkillzombie-a3dbc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:21536897589:android:f95685058c189b98484f7c",
+        "mobilesdk_app_id": "1:802032303739:android:10c14154882d118a90acde",
         "android_client_info": {
           "package_name": "com.mgn.touchkillz"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "21536897589-hh9v89gaqnnvfcaqfkd7i9a59peitlq7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mgn.touchkillz",
-            "certificate_hash": "4cc28b99249c1d9a99bf99a98f76e32c90fd1203"
-          }
-        },
-        {
-          "client_id": "21536897589-3lq0p3uovubv2ii97r00t4n69pbngau6.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBepiKPIpcVdFoTeq_BFJcjiqFr8pYWQLY"
+          "current_key": "AIzaSyAtTGWAaizjzgAuBkL9X-wIiNIIjMFigaY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "21536897589-3lq0p3uovubv2ii97r00t4n69pbngau6.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -38,7 +38,7 @@ Typeface tf;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changue_password);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         eTcurrentPassword=findViewById(R.id.eTCurrentpassword);
         eTnewPassword=findViewById(R.id.eTNewPassword);
@@ -46,7 +46,7 @@ Typeface tf;
         btnAcept=findViewById(R.id.btnAcept);
         btnCancel=findViewById(R.id.btnCancel);
 
-        reference= FirebaseDatabase.getInstance().getReference("Data players");
+        reference= FirebaseDatabase.getInstance().getReference("Data Players");
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
 

@@ -49,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
+        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);

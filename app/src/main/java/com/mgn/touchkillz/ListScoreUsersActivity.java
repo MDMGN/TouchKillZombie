@@ -31,7 +31,7 @@ public class ListScoreUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_score_users);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("Puntuaciones");
@@ -51,7 +51,7 @@ public class ListScoreUsersActivity extends AppCompatActivity {
     }
     private void getAllUsers() {
        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();/*Obtener el usuario actual*/
-      DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Data players");
+      DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Data Players");
         reference.orderByChild("zombies").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -63,10 +63,9 @@ public class ListScoreUsersActivity extends AppCompatActivity {
                         listUsers.add(user);
                     }*/
                     listUsers.add(user);
-
-                    adapter=new ListUsersAdapter(ListScoreUsersActivity.this,listUsers);
-                    recycler.setAdapter(adapter);
                 }
+                adapter=new ListUsersAdapter(ListScoreUsersActivity.this,listUsers);
+                recycler.setAdapter(adapter);
             }
 
             @Override

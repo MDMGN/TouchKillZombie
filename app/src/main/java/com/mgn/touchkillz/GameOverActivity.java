@@ -49,7 +49,7 @@ public class GameOverActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
-        reference=database.getReference("Data players");
+        reference=database.getReference("Data Players");
 
         lnLayout=findViewById(R.id.ln_Layout);
         widhtScreen();

@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         eTname=findViewById(R.id.name);
         eTcountry=findViewById(R.id.country);
@@ -114,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                             playerData.put("zombies", point);
                             //Enviar el objeto de datos a Firebase.
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference reference = database.getReference("Data players");
+                            DatabaseReference reference = database.getReference("Data Players");
                             reference.child(uid).setValue(playerData);
                             startActivity(new Intent(RegisterActivity.this, MenuActivity.class));
                             Toast.makeText(RegisterActivity.this, "¡Registro realizado con éxito!.", Toast.LENGTH_SHORT).show();
@@ -132,6 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("error message",e.getMessage());
                     }
                 });
     }
@@ -148,23 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return null;
     }
-    /*public static String sha256(String base) {
-        try{
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            StringBuffer hexString = new StringBuffer();
-
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if(hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        } catch(Exception ex){
-            throw new RuntimeException(ex);
-        }
-    }*/
     private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(RegisterActivity.this.CONNECTIVITY_SERVICE);

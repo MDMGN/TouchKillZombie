@@ -82,12 +82,12 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+       // getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         firebaseDatabase=FirebaseDatabase.getInstance();
-        reference=firebaseDatabase.getReference("Data players");
+        reference=firebaseDatabase.getReference("Data Players");
 
         profile="image";
         dialog=new Dialog(MenuActivity.this);
@@ -114,7 +114,7 @@ public class MenuActivity extends AppCompatActivity {
         btnInfo.setTypeface(tf);
         btnRecordall.setTypeface(tf);
         btnSingOut.setTypeface(tf);
-
+        isUserLogin();
 
        btnPlay.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -242,8 +242,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        isUserLogin();
         super.onStart();
+       // isUserLogin();
     }
     private void consultUsers(){
         //Consulta

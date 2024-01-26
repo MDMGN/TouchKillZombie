@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+       // getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
 
         fa = this;
         btnLogin=findViewById(R.id.btninLogin);
