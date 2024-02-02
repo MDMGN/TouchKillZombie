@@ -31,7 +31,7 @@ public class ListScoreUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_score_users);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("Puntuaciones");

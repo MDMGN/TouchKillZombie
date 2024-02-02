@@ -60,4 +60,6 @@
     <string name="hard">Difícil</string>
     <string name="normal">Normal</string>
     <string name="easy">Facíl</string>
+    <!--Screen Lpad-->
+    <string name="loading">Cargando...</string>
 </resources>

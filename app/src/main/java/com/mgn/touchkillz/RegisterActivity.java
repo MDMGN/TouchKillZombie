@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         eTname=findViewById(R.id.name);
         eTcountry=findViewById(R.id.country);

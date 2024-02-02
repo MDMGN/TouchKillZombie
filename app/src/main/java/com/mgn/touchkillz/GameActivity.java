@@ -42,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
     public static Activity ga;
     CountDownTimer countDownTimer;
     String dificult;
+
+    MediaPlayer soundClick;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
+        getSupportActionBar().setIcon(R.mipmap.ic_actionbar_zombie);
         ga=this;
         tVheight=findViewById(R.id.heightscreen);
         tVwidth=findViewById(R.id.widthscreen);
@@ -70,6 +72,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         startGame();
+       // initPlaySound();
       pj.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -237,7 +240,11 @@ public class GameActivity extends AppCompatActivity {
             click=false;
         }
     }
-
+    public void initPlaySound() {
+        int sound=R.raw.sound_background;
+        soundClick= MediaPlayer.create(this,sound);
+        soundClick.setLooping(true);
+    }
     @Override
     public void onBackPressed() {
         // super.onBackPressed();

@@ -82,7 +82,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-       // getSupportActionBar().setIcon(R.mipmap.ic_actionbar_logo);
+       getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
@@ -116,43 +116,21 @@ public class MenuActivity extends AppCompatActivity {
         btnSingOut.setTypeface(tf);
         isUserLogin();
 
-       btnPlay.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               selectDificult();
-           }
-       });
-        btnRecordall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(MenuActivity.this,ListScoreUsersActivity.class);
-                startActivity(intent);
-            }
+       btnPlay.setOnClickListener(v -> selectDificult());
+
+       btnRecordall.setOnClickListener(e ->{
+            Intent intent=new Intent(MenuActivity.this,ListScoreUsersActivity.class);
+            startActivity(intent);
         });
-        btnInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                about();
-            }
-        });
-        btnSingOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickShowAlert(v);
-            }
-        });
-        imgProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdateImageProfile();
-            }
-        });
-        imgpf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdateImageProfile();
-            }
-        });
+
+        btnInfo.setOnClickListener(v-> about());
+
+        btnSingOut.setOnClickListener(v->onClickShowAlert(v));
+
+        imgProfile.setOnClickListener(v->UpdateImageProfile());
+
+        imgpf.setOnClickListener(v->UpdateImageProfile());
+
         initPlaySound();
     }
 
@@ -388,7 +366,7 @@ public class MenuActivity extends AppCompatActivity {
     private void SolicitarPermissionStorage() {
         requestPermissions(permissionStorage,KEY_STORAGE);
     }
-    //COMPRUEBA SI LOS PERMISOS DE ALMACENAMIENTO ESTAN HSBILITADOS.
+    //COMPRUEBA SI LOS PERMISOS DE ALMACENAMIENTO ESTAN HABILITADOS.
     private boolean isPermissionStorage() {
         boolean result= ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return result;
@@ -505,7 +483,7 @@ public class MenuActivity extends AppCompatActivity {
             btnHard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                    Intent intent=new Intent(MenuActivity.this,ScreenLoadActivity.class);
                     String name=nameUser.getText().toString();
                     intent.putExtra("name",name);
                     intent.putExtra("dificult","hard");
@@ -516,7 +494,7 @@ public class MenuActivity extends AppCompatActivity {
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                Intent intent=new Intent(MenuActivity.this,ScreenLoadActivity.class);
                 String name=nameUser.getText().toString();
                 intent.putExtra("name",name);
                 intent.putExtra("dificult","normal");
@@ -527,7 +505,7 @@ public class MenuActivity extends AppCompatActivity {
         btnEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MenuActivity.this,GameActivity.class);
+                Intent intent=new Intent(MenuActivity.this,ScreenLoadActivity.class);
                 String name=nameUser.getText().toString();
                 intent.putExtra("name",name);
                 intent.putExtra("dificult","easy");
