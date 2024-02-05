@@ -221,7 +221,7 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       // isUserLogin();
+       isUserLogin();
     }
     private void consultUsers(){
         //Consulta

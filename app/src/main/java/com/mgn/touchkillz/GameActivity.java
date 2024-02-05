@@ -72,7 +72,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         startGame();
-       // initPlaySound();
       pj.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -93,6 +92,7 @@ public class GameActivity extends AppCompatActivity {
         gameOver=false;
         click=false;
         count=0;
+        initPlaySound();
         screen();
         isDificult(dificult);
         countBack();
@@ -249,6 +249,19 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundClick.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundClick.pause();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
